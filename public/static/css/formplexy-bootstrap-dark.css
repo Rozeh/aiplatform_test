@@ -1,0 +1,242 @@
+/* Made by HipstaCowboys.com */
+/* CUSTOM COLOR */
+.custom-color {
+  color: #e87d3c; }
+  .custom-color:hover {
+    color: #d86119; }
+
+.custom-color-back {
+  background: #e87d3c; }
+  .custom-color-back:hover {
+    background: #d86119; }
+
+/* /.CUSTOM COLOR */
+/* Body */
+body {
+  background: #383838;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #eeeeee; }
+
+* {
+  padding: 0;
+  margin: 0; }
+
+.formplexy {
+  /* Buttons */
+  /* Form base */ }
+  .formplexy .col-xs-1, .formplexy .col-sm-1, .formplexy .col-md-1, .formplexy .col-lg-1, .formplexy .col-xs-2, .formplexy .col-sm-2, .formplexy .col-md-2, .formplexy .col-lg-2, .formplexy .col-xs-3, .formplexy .col-sm-3, .formplexy .col-md-3, .formplexy .col-lg-3, .formplexy .col-xs-4, .formplexy .col-sm-4, .formplexy .col-md-4, .formplexy .col-lg-4, .formplexy .col-xs-5, .formplexy .col-sm-5, .formplexy .col-md-5, .formplexy .col-lg-5, .formplexy .col-xs-6, .formplexy .col-sm-6, .formplexy .col-md-6, .formplexy .col-lg-6, .formplexy .col-xs-7, .formplexy .col-sm-7, .formplexy .col-md-7, .formplexy .col-lg-7, .formplexy .col-xs-8, .formplexy .col-sm-8, .formplexy .col-md-8, .formplexy .col-lg-8, .formplexy .col-xs-9, .formplexy .col-sm-9, .formplexy .col-md-9, .formplexy .col-lg-9, .formplexy .col-xs-10, .formplexy .col-sm-10, .formplexy .col-md-10, .formplexy .col-lg-10, .formplexy .col-xs-11, .formplexy .col-sm-11, .formplexy .col-md-11, .formplexy .col-lg-11, .formplexy .col-xs-12, .formplexy .col-sm-12, .formplexy .col-md-12, .formplexy .col-lg-12 {
+    padding: 0px; }
+  .formplexy .row {
+    margin: 0px; }
+  .formplexy a {
+    transition: color 0.5s ease; }
+  .formplexy .logo {
+    margin: 50px 0px 50px 0px; }
+    .formplexy .logo img {
+      margin: 0 auto;
+      width: 120px; }
+  .formplexy .btn {
+    border: 0px;
+    color: #fff; }
+  .formplexy .primary {
+    padding: 11px 30px 11px 30px;
+    font-size: 18px;
+    transition: background 0.5s ease; }
+    .formplexy .primary:hover {
+      color: #fff; }
+  .formplexy .social {
+    padding: 11px 22px 11px 22px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: background 0.5s ease;
+    color: #fff; }
+    .formplexy .social .social-icon {
+      margin-right: 10px;
+      font-size: 18px;
+      margin-top: 1px;
+      float: left; }
+  .formplexy .social-facebook {
+    background: #4695df;
+    width: 100%; }
+    .formplexy .social-facebook:hover {
+      background: #247cce;
+      color: #fff; }
+  .formplexy .social-twitter {
+    background: #28c4ff;
+    width: 100%; }
+    .formplexy .social-twitter:hover {
+      background: #00b1f4;
+      color: #fff; }
+  .formplexy .form-base {
+    background: #2c2c2c; }
+    .formplexy .form-base header {
+      padding: 30px;
+      border-bottom: 1px solid #383838; }
+      .formplexy .form-base header h1 {
+        font-size: 20px;
+        font-weight: 300;
+        margin-top: 0px;
+        margin-bottom: 0px; }
+    .formplexy .form-base section {
+      padding: 30px; }
+      .formplexy .form-base section form input[type="text"], .formplexy .form-base section form input[type="password"], .formplexy .form-base section form input[type="email"] {
+        width: 100%;
+        border: 0px;
+        background-color: #383838; }
+      .formplexy .form-base section form input[type="checkbox"] {
+        margin-top: 19px; }
+      .formplexy .form-base section form .checkbox-custom {
+        float: left; }
+        .formplexy .form-base section form .checkbox-custom .toggle {
+          position: absolute;
+          margin-left: -9999px;
+          visibility: hidden; }
+        .formplexy .form-base section form .checkbox-custom .toggle + label {
+          display: block;
+          position: relative;
+          cursor: pointer;
+          outline: none;
+          user-select: none; }
+        .formplexy .form-base section form .checkbox-custom input.toggle-round + label {
+          padding: 2px;
+          width: 40px;
+          height: 22px;
+          -webkit-border-radius: 60px;
+          -moz-border-radius: 60px;
+          border-radius: 60px;
+          margin-left: 0px; }
+        .formplexy .form-base section form .checkbox-custom input.toggle-round + label:before,
+        .formplexy .form-base section form .checkbox-custom input.toggle-round + label:after {
+          display: block;
+          position: absolute;
+          top: 1px;
+          left: 1px;
+          bottom: 1px;
+          content: ""; }
+        .formplexy .form-base section form .checkbox-custom input.toggle-round + label:before {
+          right: 1px;
+          background-color: #383838;
+          -webkit-border-radius: 60px;
+          -moz-border-radius: 60px;
+          border-radius: 60px;
+          transition: background 0.4s; }
+        .formplexy .form-base section form .checkbox-custom input.toggle-round + label:after {
+          width: 20px;
+          background-color: #eee;
+          -webkit-border-radius: 100%;
+          -moz-border-radius: 100%;
+          border-radius: 100%;
+          box-shadow: 0 1px 0px rgba(0, 0, 0, 0.05);
+          transition: margin 0.4s; }
+        .formplexy .form-base section form .checkbox-custom input.toggle-round:checked + label:before {
+          background-color: #e87d3c; }
+        .formplexy .form-base section form .checkbox-custom input.toggle-round:checked + label:after {
+          margin-left: 18px; }
+      .formplexy .form-base section form label {
+        font-weight: 300;
+        margin-top: 18px;
+        margin-left: 10px;
+        font-size: 12px; }
+      .formplexy .form-base section form input {
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        padding: 13px 20px 13px 20px; }
+      .formplexy .form-base section form .input-group {
+        position: relative;
+        margin-bottom: 10px; }
+        .formplexy .form-base section form .input-group .input-group-addon {
+          display: none;
+          display: table-cell\9;
+          width: 110px;
+          background: #444;
+          color: #eee;
+          border: 0px; }
+        .formplexy .form-base section form .input-group .status-icon {
+          position: absolute;
+          top: 15px;
+          right: 14px;
+          font-size: 18px; }
+        .formplexy .form-base section form .input-group .icon-close {
+          color: #965549; }
+        .formplexy .form-base section form .input-group .icon-check {
+          color: #8ce196; }
+        .formplexy .form-base section form .input-group .error-input {
+          background-color: #443430; }
+      .formplexy .form-base section form .error-placeholder ::-webkit-input-placeholder {
+        color: #965549; }
+      .formplexy .form-base section form .error-placeholder :-moz-placeholder {
+        /* Firefox 18- */
+        color: #965549; }
+      .formplexy .form-base section form .error-placeholder ::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #965549; }
+      .formplexy .form-base section form .error-placeholder :-ms-input-placeholder {
+        color: #965549; }
+      .formplexy .form-base section form .section-action {
+        margin-top: 20px; }
+        .formplexy .form-base section form .section-action .forgotten-password-trigger {
+          margin-top: 15px;
+          float: left;
+          cursor: pointer;
+          font-size: 12px; }
+      .formplexy .form-base section #login-form .input-group, .formplexy .form-base section #signup-form .input-group {
+        width: 100%; }
+    .formplexy .form-base .forgotten-password {
+      display: none;
+      background: #eee; }
+      .formplexy .form-base .forgotten-password input {
+        margin-bottom: 30px; }
+      .formplexy .form-base .forgotten-password p {
+        margin-top: 10px;
+        float: left; }
+      .formplexy .form-base .forgotten-password .input-group {
+        float: left; }
+    .formplexy .form-base .forgotten-password-sent {
+      background: #e87d3c;
+      color: #fff; }
+  .formplexy .account-switch {
+    margin: 40px 0px 40px 0px; }
+  .formplexy .modal {
+    color: #666; }
+
+/* Media queries */
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .formplexy {
+    /* Buttons */ }
+    .formplexy .social-facebook {
+      width: 210px; }
+    .formplexy .social-twitter {
+      width: 200px; }
+    .formplexy .only-facebook, .formplexy .only-twitter {
+      width: 100% !important; }
+    .formplexy .form-base section form label {
+      margin-top: 14px;
+      font-size: 14px; } }
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .formplexy {
+    /* Buttons */ }
+    .formplexy .social-facebook {
+      width: 205px; }
+    .formplexy .social-twitter {
+      width: 195px; }
+    .formplexy .only-facebook, .formplexy .only-twitter {
+      width: 100% !important; } }
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .formplexy {
+    /* Buttons */ }
+    .formplexy .social-facebook {
+      width: 165px; }
+    .formplexy .social-twitter {
+      width: 145px; }
+    .formplexy .only-facebook, .formplexy .only-twitter {
+      width: 100% !important; }
+    .formplexy .forgotten-password-trigger {
+      font-size: 14px; } }

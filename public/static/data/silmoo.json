@@ -1,0 +1,40 @@
+
+{
+  "silmoo":[
+    {
+      "iconsrc" : "/static/img/face/livingcoding.png",
+      "proname" : "생활코딩",
+      "category" : "퍼블리셔",
+      "tag" : "css3",
+      "lecturelink" : "/instructor/생활코딩"
+    },
+    {
+      "lecturelink" : "/instructor/andrewshin",
+      "iconsrc" : "/static/img/face/andrewshin.jpg",
+      "proname" : "신형섭",
+      "category" : "개발자",
+      "tag" : "Spring"
+    },
+    {
+      "lecturelink" : "/instructor/블스",
+      "iconsrc" : "/static/img/face/glasses.jpg",
+      "proname" : "블스",
+      "category" : "개발자",
+      "tag" : "Java"
+    },
+    {
+      "lecturelink" : "/instructor/김정환",
+      "iconsrc" : "/static/img/face/junghwan.jpg",
+      "proname" : "김정환",
+      "category" : "프론트엔드",
+      "tag" : "Angular"
+    },
+    {
+      "lecturelink" : "/instructor/velopert",
+      "iconsrc" : "/static/img/face/velopert.png",
+      "proname" : "벨로퍼트",
+      "category" : "프론트엔드",
+      "tag" : "React"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "card":[
+    {
+      "link" : "/star_curri/1",
+      "imgsrc" : "/static/img/star/naver.svg",
+      "title" : "UI/UX 강화과정",
+      "regdate" : "2017.04.06",
+      "content" : "32",
+      "duration" : "54"
+    }
+  ]
+}

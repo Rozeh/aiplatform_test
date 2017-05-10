@@ -1,0 +1,372 @@
+/* Made by HipstaCowboys.com */
+/* CUSTOM COLOR */
+
+.custom-color {
+	color: #e87d3c;
+	&:hover {
+		color: darken(#e87d3c, 10%);
+	}
+}
+.custom-color-back {
+	background: #e87d3c;
+	&:hover {
+		background: darken(#e87d3c, 10%);
+	}
+}
+/* /.CUSTOM COLOR */
+
+
+$font-color: #666;
+$background-light: #fff;
+$primary-color: #e87d3c;
+
+/* Body */
+body {
+	background: #e4e4e4;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	font-weight: 300;
+	color: $font-color;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+.formplexy {
+
+	/* Basics */
+	.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+		padding: 0px;
+	}
+
+	.row {
+		margin: 0px;
+	}
+
+	a {
+		transition: color 0.5s ease;
+	}
+
+	/* Logo */
+	.logo {
+		margin: 50px 0px 50px 0px;
+
+		img {
+			margin: 0 auto;
+			width: 120px;
+		}
+	}
+	
+	/* Buttons */
+	.btn {
+		border: 0px;
+		color: #fff;
+	}
+		.primary {
+			padding: 11px 30px 11px 30px;
+			font-size: 18px;
+			transition: background 0.5s ease;
+
+			&:hover {
+				color: #fff;
+			}
+		}
+		.social {
+			padding: 11px 22px 11px 22px;
+			font-size: 14px;
+			margin-bottom: 10px;
+			transition: background 0.5s ease;
+			color: #fff;
+			
+			.social-icon {
+				margin-right: 10px;
+				font-size: 18px;
+				margin-top: 1px;
+				float: left;
+			}
+		}
+			.social-facebook {
+				background: #4695df;
+				width: 100%;
+				
+				&:hover {
+					background: darken(#4695df, 10%);
+					color: #fff;
+				}
+			}
+			.social-twitter {
+				background: #28c4ff;
+				width: 100%;
+
+				&:hover {
+					background: darken(#28c4ff, 10%);
+					color: #fff;
+				}
+			}
+
+	/* Form base */
+	.form-base {
+		background: $background-light;
+
+		header {
+			padding: 30px;
+			border-bottom: 1px solid #eee;
+
+			h1 {
+				font-size: 20px;
+				font-weight: 300;
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+		}
+
+		section {
+			padding: 30px;
+
+			form {
+
+				input[type="text"], input[type="password"], input[type="email"] {
+					width: 100%;
+					border: 1px solid #eee;
+				}
+
+				input[type="checkbox"] {
+					margin-top: 19px;
+				}
+
+				.checkbox-custom {
+					float: left;
+
+					.toggle {
+					  	position: absolute;
+					  	margin-left: -9999px;
+					  	visibility: hidden;
+					}
+					.toggle + label {
+					  	display: block;
+					  	position: relative;
+					  	cursor: pointer;
+					  	outline: none;
+					  	user-select: none;
+					}
+
+					input.toggle-round + label {
+					    padding: 2px;
+						width: 40px;
+						height: 22px;
+						-webkit-border-radius: 60px;
+						-moz-border-radius: 60px;
+						border-radius: 60px;
+						margin-left: 0px;
+					}
+					input.toggle-round + label:before,
+					input.toggle-round + label:after {
+					  	display: block;
+					  	position: absolute;
+					  	top: 1px;
+					  	left: 1px;
+					  	bottom: 1px;
+					  	content: "";
+					}
+					input.toggle-round + label:before {
+						right: 1px;
+						background-color: #eee;
+						-webkit-border-radius: 60px;
+						-moz-border-radius: 60px;
+						border-radius: 60px;
+						transition: background 0.4s;
+					}
+					input.toggle-round + label:after {
+						width: 20px;
+						background-color: #FCFCFC;
+						-webkit-border-radius: 100%;
+						-moz-border-radius: 100%;
+						border-radius: 100%;
+						box-shadow: 0 1px 0px rgba(0, 0, 0, 0.05);
+						transition: margin 0.4s;
+					}
+					input.toggle-round:checked + label:before {
+						background-color: #e87d3c;
+					}
+					input.toggle-round:checked + label:after {
+						margin-left: 18px;
+					}
+				}
+
+				label {
+					font-weight: 300;
+					margin-top: 14px;
+					margin-left: 10px;
+				}
+
+				input {
+					-webkit-border-radius: 4px;
+					-moz-border-radius: 4px;
+					border-radius: 4px;
+					padding: 13px 20px 13px 20px;
+				}
+
+				.input-group {
+					position: relative;
+					margin-bottom: 10px;
+
+					.input-group-addon {
+						display: none;
+						display: table-cell\9; // IE 9 and lower hack
+						width: 110px;
+						background: #eee;
+						color: #666;
+						border: 0px;
+					}
+
+					.status-icon {
+						position: absolute;
+						top: 15px;
+						right: 14px;
+						font-size: 18px;
+					}
+
+					.icon-close {
+						color: #e08691;
+					}
+					.icon-check {
+						color: #8ce196;
+					}
+
+					.error-input {
+						background-color: #f5eaec;
+						border: 1px solid #e08691;
+					}
+				}
+
+				.error-placeholder {
+						
+					::-webkit-input-placeholder {
+						color: #e08691;
+					}
+
+					:-moz-placeholder { /* Firefox 18- */
+						color: #e08691;  
+					}
+
+					::-moz-placeholder {  /* Firefox 19+ */
+						color: #e08691;  
+					}
+
+					:-ms-input-placeholder {  
+						color: #e08691;  
+					}
+
+				}
+
+				.section-action {
+					margin-top: 20px;
+
+					.forgotten-password-trigger {
+						margin-top: 15px;
+						float: left;
+						cursor: pointer;
+					}
+				}
+			}
+
+			// Input fix
+			#login-form .input-group, #signup-form .input-group {
+				width: 100%;
+			}
+		}
+
+		.forgotten-password {
+			display: none;
+			background: #eee;
+
+			input {
+				margin-bottom: 30px;
+			}
+
+			p {
+				margin-top: 10px;
+				float: left;
+			}
+			.input-group {
+				float: left;
+			}
+		}
+
+		.forgotten-password-sent {
+			background: #e87d3c;
+			color: #fff;
+		}
+	}
+
+	.account-switch {
+		margin: 40px 0px 40px 0px;
+	}
+
+	.modal {
+		color: $font-color;
+	}
+}
+
+/* Media queries */
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+	.formplexy {
+		
+		/* Buttons */
+		.social-facebook {
+			width: 210px;
+		}
+		.social-twitter {
+			width: 200px;
+		}
+		.only-facebook, .only-twitter {
+			width: 100% !important;
+		}
+	}
+
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+	.formplexy {
+		
+		/* Buttons */
+		.social-facebook {
+			width: 205px;
+		}
+		.social-twitter {
+			width: 195px;
+		}
+		.only-facebook, .only-twitter {
+			width: 100% !important;
+		}
+	}
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+
+	.formplexy {
+		
+		/* Buttons */
+		.social-facebook {
+			width: 165px;
+		}
+		.social-twitter {
+			width: 145px;
+		}
+		.only-facebook, .only-twitter {
+			width: 100% !important;
+		}
+	}
+
+}

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+<meta charset="UTF-8">
+<title>모두를 위한 딥러닝 - Deep Reinforcement Learning - 인프런</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="인프런"><link rel="shortcut icon" href="https://www.inflearn.com/wp-content/uploads/logo_16-1.png"/>
+<link rel="icon" type="image/png" href="https://www.inflearn.com/wp-content/uploads/logo_16-1.png">
+ 
+<meta name="description" content="머신 러닝과 딥러닝 강화학습 대해 더 이해하고 본인들의 문제를 이 멋진 도구를 이용해서 풀수 있게 하기위해 비디오 강의를 준비하였습니다. 더 나아가 이론에만 그치지 않고 최근 구글이 공개한 머신러닝을 위한 오픈소스인 TensorFlow를 이용해서 이론을 구현해 볼수 있도록"/>
+<meta name="robots" content="noodp"/>
+<link rel="canonical" href="https://www.inflearn.com/course/reinforcement-learning/"/>
+ 
+<link rel='dns-prefetch' href='//s.w.org'/>
+<link rel="alternate" type="application/rss+xml" title="인프런 &raquo; 피드" href="https://www.inflearn.com/feed/"/>
+<link rel="alternate" type="application/rss+xml" title="인프런 &raquo; 댓글 피드" href="https://www.inflearn.com/comments/feed/"/>
+<link rel="alternate" type="application/rss+xml" title="인프런 &raquo; 모두를 위한 딥러닝 &#8211; Deep Reinforcement Learning 댓글 피드" href="https://www.inflearn.com/course/reinforcement-learning/feed/"/>
+<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.inflearn.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.3"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+<style type="text/css">img.wp-smiley,img.emoji{display:inline!important;border:none!important;box-shadow:none!important;height:1em!important;width:1em!important;margin:0 .07em!important;vertical-align:-0.1em!important;background:none!important;padding:0!important;}</style>
+<link rel='stylesheet' id='bbps-style.css-css' href='https://www.inflearn.com/wp-content/plugins/bbpress-vip-support-plugin/templates/css/bbps-style.css?ver=4.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='dashicons-css' href='https://www.inflearn.com/wp-includes/css/dashicons.min.css?ver=4.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='wp-jquery-ui-dialog-css' href='https://www.inflearn.com/wp-includes/css/jquery-ui-dialog.min.css?ver=4.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='crayon-css' href='https://www.inflearn.com/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all'/>
+<link rel='stylesheet' id='layerslider-css' href='https://www.inflearn.com/wp-content/plugins/LayerSlider/static/css/layerslider.css?ver=5.6.2' type='text/css' media='all'/>
+<link rel='stylesheet' id='bbp-default-css' href='https://www.inflearn.com/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.12-6148' type='text/css' media='screen'/>
+<link rel='stylesheet' id='contact-form-7-css' href='https://www.inflearn.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.7' type='text/css' media='all'/>
+<link rel='stylesheet' id='rs-plugin-settings-css' href='https://www.inflearn.com/wp-content/plugins/revslider/public/assets/css/settings.css?ver=5.1.6' type='text/css' media='all'/>
+<style id='rs-plugin-settings-inline-css' type='text/css'>#rs-demo-id{}</style>
+<link rel='stylesheet' id='wsl-widget-css' href='https://www.inflearn.com/wp-content/plugins/wordpress-social-login/assets/css/style.css?ver=4.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='wplms-customizer-css-css' href='https://www.inflearn.com/wp-content/plugins/wplms-customizer/css/custom.css?ver=4.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='bp-course-css-css' href='https://www.inflearn.com/wp-content/plugins/vibe-course-module/includes/css/course_template.css?ver=4.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='bbpress-css-css' href='https://www.inflearn.com/wp-content/themes/wplms/assets/css/bbpress.min.css?ver=2.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='woocommerce-css-css' href='https://www.inflearn.com/wp-content/themes/wplms/assets/css/woocommerce.min.css?ver=2.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='wplms-style-css' href='https://www.inflearn.com/wp-content/themes/wplms/assets/css/style.min.css?ver=2.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='minimal-css' href='https://www.inflearn.com/wp-content/themes/wplms/assets/css/minimal.min.css?ver=2.7.3' type='text/css' media='all'/>
+<link rel='stylesheet' id='mycred-front-css' href='https://www.inflearn.com/wp-content/plugins/mycred/assets/css/mycred-front.css?ver=1.7.7' type='text/css' media='all'/>
+<link rel='stylesheet' id='igniteup-front-compulsory-css' href='https://www.inflearn.com/wp-content/plugins/igniteup/includes/css/front-compulsory.css?ver=3.2' type='text/css' media='all'/>
+<link rel='stylesheet' id='wplms_mycred-css' href='https://www.inflearn.com/wp-content/plugins/wplms-mycred-addon/assets/wplms-mycred-addon.css?ver=4.7.3' type='text/css' media='all'/>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var quicktagsL10n = {"closeAllOpenTags":"\uc5f4\ub9b0 \ud0dc\uadf8\ub97c \ubaa8\ub450 \ub2eb\uae30","closeTags":"\ud0dc\uadf8 \ub2eb\uae30","enterURL":"URL \uc785\ub825","enterImageURL":"\uc774\ubbf8\uc9c0\uc758 URL\uc744 \uc785\ub825\ud558\uc138\uc694","enterImageDescription":"\uc774\ubbf8\uc9c0\uc758 \uc124\uba85\uc744 \uc785\ub825\ud558\uc138\uc694","textdirection":"\uae00\uc790 \ubc29\ud5a5","toggleTextdirection":"\uae00\uc790\ubc29\ud5a5 \ud3b8\uc9d1\uae30 \ud1a0\uae00","dfw":"\uae00\uc4f0\uae30 \uc9d1\uc911 \ubaa8\ub4dc","strong":"\uad75\uac8c","strongClose":"\ubcfc\ub4dc \ud0dc\uadf8 \ub2eb\uae30","em":"\uc774\ud0e4\ub9ad","emClose":"\uc774\ud0e4\ub9ad \ud0dc\uadf8 \ub2eb\uae30","link":"\ub9c1\ud06c \uc0bd\uc785","blockquote":"\uc778\uc6a9","blockquoteClose":"\uc778\uc6a9 \ud0dc\uadf8 \ub2eb\uae30","del":"\ucde8\uc18c\uc120 (strikethrough)","delClose":"\ucde8\uc18c\uc120 \ud0dc\uadf8 \ub2eb\uae30","ins":"\uc0bd\uc785 \ud14d\uc2a4\ud2b8","insClose":"\uc0bd\uc785 \ud14d\uc2a4\ud2b8 \ud0dc\uadf8 \ub2eb\uae30","image":"\uc774\ubbf8\uc9c0 \uc0bd\uc785","ul":"\ubd88\ub9bf \ubaa9\ub85d","ulClose":"\uc21c\uc11c\uc5c6\ub294 \ubaa9\ub85d \ud0dc\uadf8 \ub2eb\uae30","ol":"\uc22b\uc790 \uc788\ub294 \ubaa9\ub85d","olClose":"\uc21c\uc11c\uc788\ub294 \ubaa9\ub85d \ud0dc\uadf8 \ub2eb\uae30","li":"\ubaa9\ub85d \uc544\uc774\ud15c","liClose":"\ubaa9\ub85d \uc544\uc774\ud15c \ud0dc\uadf8 \ub2eb\uae30","code":"\ucf54\ub4dc","codeClose":"\ucf54\ub4dc \ud0dc\uadf8 \ub2eb\uae30","more":"\ub354\ubcf4\uae30 \ud0dc\uadf8 \uc0bd\uc785"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/quicktags.min.js?ver=4.7.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/www.inflearn.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"%s\ub85c \ubcf5\uc0ac, %s\ub85c \ubd99\uc5ec\ub123\uae30","minimize":"Click To Expand Code"};
+var CrayonTagEditorSettings = {"home_url":"https:\/\/www.inflearn.com","css":"crayon-te","css_selected":"crayon-selected","code_css":"#crayon-code","url_css":"#crayon-url","url_info_css":"#crayon-te-url-info","lang_css":"#crayon-lang","title_css":"#crayon-title","mark_css":"#crayon-mark","range_css":"#crayon-range","inline_css":"crayon-inline","inline_hide_css":"crayon-hide-inline","inline_hide_only_css":"crayon-hide-inline-only","hl_css":"#crayon-highlight","switch_html":"#content-html","switch_tmce":"#content-tmce","tinymce_button_generic":".mce-btn","tinymce_button":"a.mce_crayon_tinymce,.mce-i-crayon_tinymce","tinymce_button_unique":"mce_crayon_tinymce","tinymce_highlight":"mce-active","submit_css":"#crayon-te-ok","cancel_css":"#crayon-te-cancel","content_css":"#crayon-te-content","dialog_title_css":"#crayon-te-title","submit_wrapper_css":"#crayon-te-submit-wrapper","data_value":"data-value","attr_sep":":","css_sep":"_","fallback_lang":"default","add_text":"Add Code","edit_text":"Edit Code","quicktag_text":"crayon","submit_add":"\ucd94\uac00","submit_edit":"\uc800\uc7a5","bar":"#crayon-te-bar","bar_content":"#crayon-te-bar-content","extensions":{"scpt":"applescript","applescript":"applescript","swf":"as","fla":"as","cs":"c#","h":"c++","hh":"c++","hpp":"c++","hxx":"c++","h++":"c++","cc":"c++","cpp":"c++","cxx":"c++","c++":"c++","pas":"delphi","java":"java","class":"java","jar":"java","mel":"mel","ma":"mel","mv":"miva","mvc":"miva","mvt":"miva","m":"objc","mm":"objc","psc":"papyrus","pl":"perl","py":"python","pyw":"python","pyc":"python","pyo":"python","pyd":"python","rb":"ruby","rbx":"ruby","rhtml":"ruby","vbs":"vb"}};
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/www.inflearn.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"%s\ub85c \ubcf5\uc0ac, %s\ub85c \ubd99\uc5ec\ub123\uae30","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.te.min.js?ver=_2.7.2_beta'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/LayerSlider/static/js/greensock.js?ver=1.11.8'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/LayerSlider/static/js/layerslider.kreaturamedia.jquery.js?ver=5.6.2'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/LayerSlider/static/js/layerslider.transitions.js?ver=5.6.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var BP_Confirm = {"are_you_sure":"\uc815\ub9d0\uc778\uac00\uc694?"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/buddypress/bp-core/js/confirm.min.js?ver=2.8.2'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/revslider/public/assets/js/jquery.themepunch.tools.min.js?ver=5.1.6'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/revslider/public/assets/js/jquery.themepunch.revolution.min.js?ver=5.1.6'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wc_add_to_cart_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/course\/reinforcement-learning\/?wc-ajax=%%endpoint%%","i18n_view_cart":"\uc7a5\ubc14\uad6c\ub2c8","cart_url":"https:\/\/www.inflearn.com\/cart-2\/","is_cart":"","cart_redirect_after_add":"no"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='//www.inflearn.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=3.0.1'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/wplms-customizer/js/custom.js?ver=4.7.3'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/js_composer/assets/js/vendors/woocommerce-add-to-cart.js?ver=5.1.1'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/wplms-mycred-addon/assets/wplms-mycred-addon.js?ver=4.7.3'></script>
+ 
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
+	__gaTracker( 'create', 'UA-65157832-1', 'auto' );
+	__gaTracker( 'set', 'forceSSL', true );
+	__gaTracker( 'require', 'ec' );
+</script>
+ 
+<link rel='https://api.w.org/' href='https://www.inflearn.com/wp-json/'/>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.inflearn.com/xmlrpc.php?rsd"/>
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.inflearn.com/wp-includes/wlwmanifest.xml"/>
+<meta name="generator" content="WordPress 4.7.3"/>
+<meta name="generator" content="WooCommerce 3.0.1"/>
+<link rel='shortlink' href='https://www.inflearn.com/?p=38407'/>
+<link rel="alternate" type="application/json+oembed" href="https://www.inflearn.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.inflearn.com%2Fcourse%2Freinforcement-learning%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="https://www.inflearn.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.inflearn.com%2Fcourse%2Freinforcement-learning%2F&#038;format=xml"/>
+<script type="text/javascript">var ajaxurl = 'https://www.inflearn.com/wp-admin/admin-ajax.php';</script>
+<script type="text/javascript">igniteup_ajaxurl = "https://www.inflearn.com/wp-admin/admin-ajax.php";</script><meta name="generator" content="Powered by Visual Composer - drag and drop page builder for WordPress."/>
+<!--[if lte IE 9]><link rel="stylesheet" type="text/css" href="https://www.inflearn.com/wp-content/plugins/js_composer/assets/css/vc_lte_ie9.min.css" media="screen"><![endif]--><meta name="generator" content="Powered by Slider Revolution 5.1.6 - responsive, Mobile-Friendly Slider Plugin for WordPress with comfortable drag and drop interface."/>
+<style>.button,input[type=button],input[type=submit],.button.hero,.heading_more:before,.vibe_carousel .flex-direction-nav a,.sidebar .widget #searchform input[type="submit"],#signup_submit,#submit,button,.login_sidebar .login_content #vbp-login-form #sidebar-wp-submit,#buddypress a.button,.generic-button a:hover,#buddypress input[type=button],body.activity-permalink .ac-form input[type=submit],#buddypress input[type=submit],#buddypress input[type=reset],#buddypress ul.button-nav li a,#buddypress .item-list-tabs ul li a:hover,#buddypress div.generic-button a:hover,a.bp-title-button,.woocommerce-account .woocommerce-MyAccount-navigation li.is-active a,#buddypress div.item-list-tabs#subnav ul li.current a,#buddypress div.item-list-tabs ul li a span,#buddypress div.item-list-tabs ul li.selected a,#buddypress div.item-list-tabs ul li.current a,#vibe_bp_login #wplogin-modal .btn-default,#vibe_bp_login #wplogin-modal .btn-block,.single #buddypress .item-list-tabs#subnav ul li.selected a,.single-item #buddypress .item-list-tabs#subnav ul li.selected a,.course_button.button,.unit_button.button,.woocommerce div.product .woocommerce-tabs ul.tabs li.active,.woocommerce #content div.product .woocommerce-tabs ul.tabs li.active,.woocommerce-page div.product .woocommerce-tabs ul.tabs li.active,.woocommerce-page #content div.product .woocommerce-tabs ul.tabs li.active,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button,.woocommerce #respond input#submit,.woocommerce #content input.button,.woocommerce-page a.button,.woocommerce-page button.button,.woocommerce-page input.button,.woocommerce-page #respond input#submit,.woocommerce-page #content input.button,.woocommerce ul.products li a.added_to_cart,.woocommerce ul.products li a.button,.woocommerce a.button.alt,.woocommerce button.button.alt,.woocommerce input.button.alt,.woocommerce #respond input#submit.alt,.woocommerce #content input.button.alt,.woocommerce-page a.button.alt,.woocommerce-page button.button.alt,.woocommerce-page input.button.alt,.woocommerce-page #respond input#submit.alt,.woocommerce-page #content input.button.alt,.woocommerce .widget_layered_nav_filters ul li a,.woocommerce-page .widget_layered_nav_filters ul li a,.woocommerce .widget_price_filter .ui-slider .ui-slider-range,.woocommerce-page .widget_price_filter .ui-slider .ui-slider-range,.woocommerce div.product .woocommerce-tabs ul.tabs li.active,.woocommerce div.product .woocommerce-tabs ul.tabs li:hover,.price_slider .ui-slider-range,.ui-slider .ui-slider-handle,.tabs-left>.nav-tabs>li>a:hover,.tabs-left>.nav-tabs>li>a:focus,.page-numbers.current,.pagination .page-numbers.current,.pagination span.current,.block_media .hover-link,.vibe_filterable li a:hover,.vibe_filterable li.active a,#wplms-calendar td.active,.btn.primary,#wplms-calendar td a span,.tagcloud a,.checkoutsteps ul li.checkout_begin,.widget.pricing .course_sharing .socialicons.round li>a:hover,.widget.pricing .course_sharing .socialicons.square li>a:hover,.widget_carousel .flex-direction-nav a,.vibe_carousel .flex-direction-nav a,#question #submit:hover,.ques_link:hover,.reset_answer,.quiz_timeline li:hover>span,.quiz_timeline li.active>span,.course_timeline li.done>span,.course_timeline li:hover>span,.course_timeline li.active>span,.quiz_timeline li.active>a>span,.vbplogin em,#buddypress div.item-list-tabs#subnav ul li.switch_view a.active,#buddypress .activity-list li.load-more a:hover,.note-tabs ul li.selected a,.note-tabs ul li.current a,.data_stats li:hover,.data_stats li.active,.course_students li .progress .bar,.in_quiz .pagination ul li span,.quiz_meta .progress .bar,.page-links span,#vibe_bp_login input[type=submit],.single-course.c2 #item-nav div.item-list-tabs#object-nav li.current a,.single-course.c3 #item-nav div.item-list-tabs#object-nav li.current a,.single-course.c5 #item-nav div.item-list-tabs#object-nav li.current a,.minimal .widget .course_cat_nav ul li a:hover span,.minimal .pusher #buddypress a.button:hover,.minimal #buddypress #item-nav .item-list-tabs ul li.current a:after,.minimal #buddypress #item-nav .item-list-tabs ul li.selected a:after,.vibe_carousel .flex-control-nav li a,.widget_carousel .flex-control-nav li a{background-color:#00a0d2;}.tagcloud a:hover,.instructor_action_buttons li a span,.total_students span,.nav-tabs>li.active>a,.nav-tabs>li.active>a:focus,.nav-tabs>li.active>a:hover,.unit_content p span.side_comment:hover,.unit_content p span.side_comment.active,.v_module.custom_post_carousel .heading_more,#buddypress .activity-list li.load-more a:hover,.load-more a:hover,.instructor strong span,#buddypress .item-list-tabs ul li a:hover,.archive #buddypress .course_category,.course_front_progressbar .progress .bar,.widget .course_cat_nav ul li.current-cat-parent>a,.widget .course_cat_nav ul li.current-cat>a,.widget .course_cat_nav ul li a span,.woocommerce nav.woocommerce-pagination ul li span.current,.woocommerce nav.woocommerce-pagination ul li a:hover,.widget .price_slider .ui-slider-handle,#bbpress-forums #favorite-toggle a:hover,#bbpress-forums #subscription-toggle a:hover,.pagetitle #subscription-toggle a:hover,#bbpress-forums .bbp-pagination .bbp-pagination-links a.page-numbers:hover,#bbpress-forums .bbp-pagination .bbp-pagination-links span.current,.mooc .vbpcart span em,.sleek .vbpcart span em,.minimal .pusher h3.heading span:after,.minimal #buddypress div.item-list-tabs ul li.selected a:after,.minimal #buddypress div.item-list-tabs ul li.selected a span,.minimal #buddypress div.item-list-tabs#subnav ul li.switch_view a.active,.minimal .pusher #buddypress input[type=submit]:hover,.minimal .pusher .button:hover,.minimal .pusher input[type=submit]:hover,.minimal.single-course.c2 #item-nav .item-list-tabs#object-nav ul li.current a:after,.minimal.single-course.c2 #item-nav .item-list-tabs#object-nav ul li.selected a:after,.minimal.single-course.c3 #item-nav .item-list-tabs#object-nav ul li.current a:after,.minimal.single-course.c3 #item-nav .item-list-tabs#object-nav ul li.selected a:after,.minimal.single-course.c2 .course_sub_action.current a:after,.minimal.single-course.c3 .course_sub_action.current a:after,.single-course.c4.minimal #buddypress .item-list-tabs#object-nav li.current a:after,.minimal.single-course.submissions .course_sub_action.current a:after,.minimal.single-course.c5 #item-nav .item-list-tabs#object-nav ul li.current a:after,.minimal.single-course.c5 #item-nav .item-list-tabs#object-nav ul li.selected a:after,.minimal .pusher h3.heading span:after,.minimal .pusher h4.widget_title span:after,.minimal.woocommerce-page a.button:hover,.minimal.woocommerce a.button:hover,.minimal.woocommerce ul.products li a.button:hover,.minimal .pagination a.page-numbers:hover,.minimal .pagination a:hover,.minimal .pagination .page-numbers.current,.minimal .pagination span.current,.minimal.woocommerce-page #content input.button:hover,.minimal.woocommerce-page input.button:hover,.minimal .pusher .woocommerce a.button:hover,.minimal #buddypress #group-create-tabs.item-list-tabs li.current>a:after,.elegant #buddypress div.item-list-tabs li.selected a:before,.elegant.archive #buddypress div.item-list-tabs li.selected a,.elegant #item-nav div.item-list-tabs#object-nav li.current a:before,.elegant #buddypress .item-list-tabs#subnav ul li.current a:before,.elegant #buddypress #item-nav div.item-list-tabs#object-nav li.current a:before,.elegant #buddypress #members-activity div.item-list-tabs ul li.selected a:before,.elegant.single-course.c4 #buddypress .item-list-tabs#object-nav li.current a:before,.elegant.single #buddypress .item-list-tabs#subnav ul li.selected a:before,.login_page_content .nav.nav-tabs>li.active>a:after,.block.general .block_content .general_details,.modern .vibe_carousel .flex-direction-nav a:hover,.modern .pusher h3.heading span:before,.modern .pusher h4.widget_title span:before,.modern #buddypress #item-nav .item-list-tabs ul li.current a:after,.modern #buddypress #item-nav .item-list-tabs ul li.selected a:after,.modern .pusher #title .pagetitle h1:after,.modern #buddypress div.item-list-tabs ul li.current a:after,.modern #buddypress div.item-list-tabs ul li.selected a:after,.modern #buddypress div.item-list-tabs ul li.current a span,.modern #buddypress div.item-list-tabs ul li.selected a span,.save_quiz_progress .save_progress_inner,.submit_quiz_progress .save_progress_inner,body.loading.pageloader2 .global:before,body.loading.pageloader2 .global:after,.course_pursue_panel .course_action_points,.course_pursue_panel .course_timeline li.unit_line.active:before,.block.simple .block_content .simple_category a:before,.block.simple .block_media:before,.block.generic .block_content .generic_category a:before,.block.generic .block_content .block_title a:before{background:#00a0d2;}.link,.instructor_line h3 a:hover,.minimal .generic-button a,#notes_discussions .actions a:hover,ul.item-list.loading:after,#ajaxloader:after,.course_timeline li.active a,.course_timeline li:hover a,#notes_discussions .actions a.reply_unit_comment.meta_info,.side_comments ul.actions li a:hover,.v_module.custom_post_carousel .vibe_carousel.noheading .flex-direction-nav .flex-next,.v_module.custom_post_carousel .vibe_carousel.noheading .flex-direction-nav .flex-prev,.side_comments a.reply_unit_comment.meta_info,.nav.nav-tabs>li.active>a>span,.unit_content .reply a,.widget .item-options a.selected,.footerwidget .item-options a.selected,.course_front_progressbar>span,#buddypress div.generic-button a,.woocommerce div.product .connected_courses li a,.widget .course_cat_nav ul li.current-cat-parent>a>span,.widget .course_cat_nav ul li.current-cat>a>span,#bbpress-forums #favorite-toggle a,#bbpress-forums #subscription-toggle a,.pagetitle #subscription-toggle a,.minimal.woocommerce ul.products li a.button,.minimal.woocommerce a.button,.minimal #buddypress ul.item-list li .item-credits a.button,.minimal .note-tabs ul li a,.minimal .pagination span,.minimal .pagination label,.minimal .pagination .page-numbers.current,.minimal .pagination span.current,.minimal .pagination a.page-numbers,.minimal .pagination a,.minimal.woocommerce-page a.button,.minimal.woocommerce nav.woocommerce-pagination ul li a,.minimal #bbpress-forums .bbp-pagination .bbp-pagination-links a.page-numbers,.minimal #bbpress-forums .bbp-pagination .bbp-pagination-links span,.minimal #buddypress div.item-list-tabs ul li a:hover,.minimal #buddypress div.item-list-tabs ul li.selected a,.minimal #buddypress div.item-list-tabs#subnav ul li.switch_view a.active,.minimal .widget .course_cat_nav ul li a:hover,.minimal .widget .course_cat_nav ul li a span,.minimal .pusher .button,.minimal .pusher #buddypress a.button,.minimal .pusher #buddypress input[type=submit],.minimal .pusher .button,.minimal .pusher input[type=submit],.minimal .pusher #buddypress input[type=button],.minimal #buddypress #item-nav .item-list-tabs ul li.current a,.minimal #buddypress #item-nav .item-list-tabs ul li.selected a,.minimal #buddypress div.item-list-tabs#subnav ul li.current a,.minimal #buddypress div.item-list-tabs#subnav ul li.selected a,.minimal.bp-user.p2 #buddypress div.item-list-tabs#object-nav li a:hover,.minimal.bp-user.p3 #buddypress div.item-list-tabs#object-nav li a:hover,.minimal.bp-user.p4 #buddypress div.item-list-tabs#object-nav li a:hover,.minimal.single-course.c2 #item-nav .item-list-tabs#object-nav ul li.current a,.minimal.single-course.c2 #item-nav .item-list-tabs#object-nav ul li.selected a,.minimal.single-course.c3 #item-nav .item-list-tabs#object-nav ul li.current a,.minimal.single-course.c3 #item-nav .item-list-tabs#object-nav ul li.selected a,.minimal.single-course.c2 #item-nav .item-list-tabs#object-nav ul li a:hover,.minimal.single-course.c3 #item-nav .item-list-tabs#object-nav ul li a:hover,.minimal .mooc .woocart .buttons .button,.minimal .sleek .woocart .buttons .button,.minimal .woocommerce ul.products li.product .button,.minimal .pusher .woocommerce a.button,.elegant #item-nav div.item-list-tabs#object-nav li a:hover,.elegant #item-nav div.item-list-tabs#object-nav li.current a,.elegant #buddypress #item-nav div.item-list-tabs#object-nav li.current a,.elegant #buddypress #item-nav div.item-list-tabs#object-nav li a:hover,.elegant #buddypress #members-activity div.item-list-tabs ul li.selected a,.elegant #buddypress #members-activity div.item-list-tabs ul li a:hover,.elegant.single-course.c3 #item-nav div.item-list-tabs#object-nav li.current a,.elegant.single-course.c4 #buddypress .item-list-tabs#object-nav li.current a,.login_page_content .nav.nav-tabs>li.active>a,.block.postblock .block_content .course_instructor,.elegant.single #buddypress .item-list-tabs#subnav ul li.selected a,.modern #buddypress #item-nav .item-list-tabs ul li.current a,.modern #buddypress #item-nav .item-list-tabs ul li.selected a,.modern nav li a:hover,.modern nav li.current_menu_item a,.modern nav li.current_page_item a,.modern #buddypress div.item-list-tabs ul li a:hover,.modern #buddypress div.item-list-tabs ul li.current a,.modern #buddypress div.item-list-tabs ul li.selected a,.modern #buddypress div.item-list-tabs ul li a span,.modern #buddypress div.item-list-tabs#subnav ul li.current a,.modern #buddypress div.item-list-tabs#subnav ul li.selected a{color:#00a0d2;}.button,.radio>input[type=radio]:checked+label:before,.nav-tabs>li.active>a,.nav-tabs>li.active>a:focus,.nav-tabs>li.active>a:hover.tab-pane li:hover img,.checkbox>input[type=checkbox]:checked+label:before,.pagination .page-numbers.current,.pagination span.current,#buddypress div.item-list-tabs ul li.current,#buddypress div.item-list-tabs#subnav ul li.current a,.single #buddypress .item-list-tabs#subnav ul li.selected a,.single-item #buddypress .item-list-tabs#subnav ul li.selected a,.unit_button.button,#buddypress div#item-header #item-header-avatar,.gallery a:hover,.woocommerce div.product .woocommerce-tabs ul.tabs li.active,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button,.woocommerce #respond input#submit,.woocommerce #content input.button,.woocommerce-page a.button,.woocommerce-page button.button,.woocommerce-page input.button,.woocommerce-page #respond input#submit,.woocommerce-page #content input.button,.woocommerce a.button.alt,.woocommerce button.button.alt,.woocommerce input.button.alt,.woocommerce #respond input#submit.alt,.woocommerce #content input.button.alt,.woocommerce-page a.button.alt,.woocommerce-page button.button.alt,.woocommerce-page input.button.alt,.woocommerce-page #respond input#submit.alt,.woocommerce-page #content input.button.alt,.woocommerce .widget_layered_nav_filters ul li a,.woocommerce-page .widget_layered_nav_filters ul li a,.woocommerce div.product .woocommerce-tabs ul.tabs li.active,.woocommerce div.product .woocommerce-tabs ul.tabs li:hover,.tabs-left>.nav-tabs>li>a:hover,.tabs-left>.nav-tabs>li>a:focus,.tabs-left>.nav-tabs .active>a,.tabs-left>.nav-tabs .active>a:hover,.tabs-left>.nav-tabs .active>a:focus,.vibe_filterable li a:hover,.vibe_filterable li.active a,#wplms-calendar td.active,.checkoutsteps ul li.checkout_begin,.widget_course_list a:hover img,.widget_course_list a:hover img,.quiz_timeline li.active,.widget_course_list a:hover img,.vcard:hover img,.postsmall .post_thumb a:hover,.button.hero,.unit_content .commentlist li.bypostauthor>.comment-body>.vcard img,.unit_content .commentlist li:hover>.comment-body>.vcard img,#buddypress div.generic-button a,#buddypress div.item-list-tabs#subnav ul li.switch_view a.active,.woocommerce nav.woocommerce-pagination ul li span.current,#bbpress-forums #favorite-toggle a,#bbpress-forums .bbp-pagination .bbp-pagination-links span.current,#bbpress-forums #subscription-toggle a,.pagetitle #subscription-toggle a,.minimal.woocommerce ul.products li a.button,.minimal.woocommerce a.button,.minimal .note-tabs,.minimal .pagination span,.minimal .pagination label,.minimal .pagination .page-numbers.current,.minimal .pagination span.current,.minimal .pagination a.page-numbers,.minimal .pagination a,.minimal.woocommerce-page a.button,.minimal.woocommerce nav.woocommerce-pagination ul li a,.minimal #bbpress-forums .bbp-pagination .bbp-pagination-links a.page-numbers,.minimal #bbpress-forums .bbp-pagination .bbp-pagination-links span,.minimal #buddypress div.item-list-tabs ul li a:hover,.minimal .pusher #buddypress a.button,.minimal .generic-button a,.minimal #buddypress div.item-list-tabs ul li.selected a,.minimal #buddypress div.item-list-tabs ul li a span,.minimal .widget .course_cat_nav ul li a span,.minimal .pusher #buddypress input[type=button],.minimal .pusher #buddypress input[type=submit],.minimal .pusher .button,.minimal .pusher input[type=submit],.minimal.woocommerce-page #content input.button,.minimal.woocommerce-page input.button,.minimal .pusher .woocommerce a.button,.minimal.woocommerce div.product .woocommerce-tabs ul.tabs li.active,.minimal.woocommerce div.product .woocommerce-tabs ul.tabs li:hover,.elegant #buddypress div.item-list-tabs li.selected{border-color:#00a0d2;}a:hover,.author_desc .social li a:hover,#course_creation_tabs li.active:after,.widget ul>li:hover>a,.course_students li>ul>li>a:hover,.quiz_students li>ul>li>a:hover,#buddypress div.activity-meta a,#buddypress div.activity-meta a.button,#buddypress .acomment-options a,.widget .menu li.current-menu-item a,#buddypress a.primary,#buddypress a.secondary,.activity-inner a,#latest-update h6 a,.bp-primary-action,.bp-secondary-action,#buddypress div.item-list-tabs ul li.selected a span,#buddypress div.item-list-tabs ul li.current a span,#buddypress div.item-list-tabs ul li a:hover span,.activity-read-more a,.unitattachments h4 span,.unitattachments li a:after,.noreviews a,.expand .minmax:hover,.connected_courses li a,#buddypress #item-body span.highlight a,#buddypress div#message-thread div.message-content a,.course_students li>ul>li>a:hover,.quiz_students li>ul>li>a:hover,.assignment_students li>ul>li>a:hover,.widget ul li:hover>a,.widget ul li.current-cat a,.quiz_timeline li:hover a,.quiz_timeline li.active a,.woocommerce .star-rating span,.woocommerce-page .star-rating span,.product_list_widget .star-rating span,#vibe-tabs-notes_discussion .view_all_notes:hover,.instructor strong a:hover,.minimal .woocommerce nav.woocommerce-pagination ul li a,.single-item.groups.g3.minimal #item-body .item-list-tabs#subnav ul li.current.selected a,.single-item.groups.g4.minimal #item-body .item-list-tabs#subnav ul li.current.selected a,.bp-user.p3 #item-body .item-list-tabs#subnav ul li.current.selected a,.bp-user.p4 #item-body .item-list-tabs#subnav ul li.current.selected a,.minimal #buddypress div.item-list-tabs ul li a span,.minimal.single-item.groups.g2 #buddypress div.item-list-tabs#object-nav li a:hover,.minimal.single-item.groups.g3 #buddypress div.item-list-tabs#object-nav li a:hover,.minimal.single-item.groups.g4 #buddypress div.item-list-tabs#object-nav li a:hover,.minimal.single-course.c5 #item-nav .item-list-tabs#object-nav ul li a:hover,.minimal.single-course.c5 #item-nav .item-list-tabs#object-nav ul li.current a,.minimal.woocommerce-page #content input.button,.minimal.woocommerce button.button,.minimal.woocommerce-page input.button,.elegant #buddypress .dir-form div.item-list-tabs ul li.selected a,.elegant.directory.d3 #buddypress .item-list-tabs ul li a:hover{color:#00a0d2;}.minimal.woocommerce .button,.minimal.woocommerce button.button,.minimal #buddypress div.item-list-tabs#subnav ul li.switch_view a.active,.minimal.directory #buddypress div.item-list-tabs#subnav ul li.switch_view a.active{border-color:#00a0d2!important;}.minimal nav li a:hover,.minimal nav li:hover>a,.minimal nav li.current_menu_item>a,.minimal nav li.current_page_item>a,.minimal.woocommerce div.product .woocommerce-tabs ul.tabs li.active a,.minimal.woocommerce div.product .woocommerce-tabs ul.tabs li:hover a,.elegant #buddypress .item-list-tabs#subnav ul li.current a,.elegant.single-course #item-nav div.item-list-tabs#object-nav li.current a,.elegant.directory.d3 #buddypress .item-list-tabs li.selected a,.elegant.directory.d4 #buddypress .item-list-tabs li.selected a,.elegant.bp-user.p4 #buddypress .item-list-tabs#subnav li.selected.current a,.elegant.single-item.groups.g4 #buddypress .item-list-tabs#subnav li.selected.current a{color:#00a0d2!important;}.woocommerce a.button,.button,#nav_horizontalli.current-menu-ancestor>a,#headertop a.btn,button,#nav_horizontal li.current-menu-item>a,.total_students span,#nav_horizontal li a:hover,.button.hero,.tagcloud a:hover,#nav_horizontal li:hover a,.course_button.button span.amount,#buddypress .item-list-tabs ul li a:hover,.login_sidebar .login_content #vbp-login-form #sidebar-wp-submit,.vibe_filterable li.active a,.tabbable .nav.nav-tabs li:hover a,.btn,a.btn.readmore:hover,.checkbox>input[type=checkbox]:checked+label:after,footer .tagcloud a:hover,.tagcloud a,.in_quiz .pagination ul li span,.nav-tabs>li.active>a,.nav-tabs>li.active>a:hover,.nav-tabs>li.active>a:focus,.generic-button a:hover,.woocommerce-account .woocommerce-MyAccount-navigation li.is-active a,body.activity-permalink .ac-form input[type=submit],.hover-link:hover,#buddypress .activity-list li.load-more a:hover,#buddypress div.generic-button a:hover,.archive #buddypress .course_category,.archive #buddypress .course_category h3,#buddypress ul.item-list li .item-credits a.button,#buddypress ul.item-list li .item-credits a.button span,#course_creation_tabs li.done:after,.widget .course_cat_nav ul li a,#buddypress .item-list-tabs ul li a:hover,.pagination .current,#question #submit:hover,.ques_link:hover,.reset_answer:hover,.widget .course_cat_nav ul li.current-cat-parent>a,.widget .course_cat_nav ul li.current-cat>a,.widget .course_cat_nav ul li a span,.woocommerce ul.products li.product .button,.woocommerce nav.woocommerce-pagination ul li span.current,.woocommerce nav.woocommerce-pagination ul li a:hover,.woocommerce #respond input#submit,.woocommerce #content input.button,.woocommerce-page a.button,.woocommerce-page button.button,.woocommerce-page input.button,.quiz_timeline li.active>a>span,.woocommerce div.product .woocommerce-tabs ul.tabs li.active,.woocommerce div.product .woocommerce-tabs ul.tabs li:hover,#vibe_bp_login input[type=submit],.woocommerce-page #respond input#submit,#bbpress-forums #favorite-toggle a:hover,#bbpress-forums #subscription-toggle a:hover,#bbpress-forums .bbp-pagination .bbp-pagination-links a.page-numbers:hover,#bbpress-forums .bbp-pagination .bbp-pagination-links span.current,#buddypress ul.button-nav li a,.tabs ul.nav.nav-tabs>li.active>a>span,.mooc .vbpcart span em,.sleek .vbpcart span em,.single-course.c2 #item-nav div.item-list-tabs#object-nav li.current a,.single-course.c3 #item-nav div.item-list-tabs#object-nav li.current a,.single-course.c5 #item-nav div.item-list-tabs#object-nav li.current a,.single-item.groups.g2 #buddypress div.item-list-tabs#object-nav li a:hover,.single-item.groups.g3 #buddypress div.item-list-tabs#object-nav li a:hover,.single-item.groups.g4 #buddypress div.item-list-tabs#object-nav li a:hover,.v_module.custom_post_carousel .heading_more,.minimal .pusher #buddypress a.button:hover,.minimal .note-tabs ul li.selected a,.minimal #buddypress div.item-list-tabs ul li.selected a span,.minimal .widget .course_cat_nav ul li a:hover span,.minimal .pagination .page-numbers.current,.minimal .pagination span.current,.minimal.woocommerce-page a.button:hover,.minimal.woocommerce a.button:hover,.minimal .pusher .button:hover,.minimal.woocommerce ul.products li a.button:hover,.minimal .pagination a.page-numbers:hover,.minimal .pagination a:hover,.minimal .pusher #buddypress input[type=submit]:hover,.minimal .pusher input[type=submit]:hover,.minimal.woocommerce-page #content input.button:hover,.minimal.woocommerce-page input.button:hover,.minimal .mooc .woocart .buttons .button:hover,.minimal .sleek .woocart .buttons .button:hover,.minimal .pusher .woocommerce a.button:hover,.elegant #buddypress .dir-form div.item-list-tabs ul li:not(.selected) a:hover,.elegant.single-course.c4 #buddypress .item-list-tabs#object-nav li a:hover,.elegant .widget.pricing a.button,.block.general .block_content .general_details>a,.modern .vibe_carousel .flex-direction-nav a:hover,.course_pursue_panel .course_action_points,.course_pursue_panel .course_action_points h1,.course_pursue_panel .course_time strong,.course_pursue_panel .course_time strong span{color:#ffffff;}#logo img,#alt_logo img{height:35px;max-height:35px;}#logo img,#alt_logo img{max-height:35px;}#logo{padding-top:20px;}#headertop,header.fixed,.pagesidebar,#pmpro_confirmation_table thead,header #searchdiv.active #searchform input[type=text],.pmpro_checkout thead th,#pmpro_levels_table thead,.boxed #headertop .container,header.sleek.transparent.fixed{background-color:#ffffff;}#headertop,#headertop a,.sidemenu li a,.sidemenu .mobile_icons>a,#pmpro_confirmation_table thead,.pmpro_checkout thead th,#pmpro_levels_table thead,header.fixed .topmenu>li>a,header.fixed #searchicon,header.fixed nav>.menu>li>a{color:#515151;}header,.sidemenu li.active a,.sidemenu li a:hover,.note-tabs,header #searchform input[type="text"],.boxed header:not(.transparent) .container,.reset_answer:hover{background-color:#3f3f3f;}nav .menu li a,nav .menu li.current-menu-item a,.topmenu li a,.sleek .topmenu>li>a,.sleek nav>.menu>li>a,header #searchicon,.mooc .topmenu>li>a,.mooc nav>.menu>li>a,#login_trigger{color:#ffffff;}.sub-menu,nav .sub-menu,#mooc_menu nav .menu li:hover>.menu-sidebar,header #searchform,.sleek .woocart,.megadrop .menu-cat_subcat .sub_cat_menu,.megadrop .menu-cat_subcat .sub_posts_menu{background-color:#ffffff;}nav .menu li>.sub-menu li a,nav .menu li.current-menu-item .sub-menu li a,nav .sub-menu li.current-menu-item a,nav .menu li .menu-sidebar .widget h4.widget_title,nav .menu li .menu-sidebar .widget ul li a,nav .menu li .menu-sidebar .widget,.megadrop .menu-sidebar,#mooc_menu nav .menu li:hover>.menu-sidebar,#mooc_menu nav .menu li:hover>.menu-sidebar a,.megadrop .menu-sidebar .widget ul li a,.megadrop .menu-sidebar .widget .widgettitle,.megadrop .menu-sidebar .widgettitle,.sleek .woocart .cart_list.product_list_widget .mini_cart_item a,.sleek .woocart .cart_list.product_list_widget .mini_cart_item span,.sleek .woocart .total,.sleek .woocart .cart_list.product_list_widget .empty,.mooc .woocart .cart_list.product_list_widget .mini_cart_item a,.mooc .woocart .cart_list.product_list_widget .mini_cart_item span,.mooc .woocart .total,.sleek .woocart .cart_list.product_list_widget .empty{color:#444444;}nav>.menu>li>a,.sleek .topmenu>li>a,.sleek nav>.menu>li>a{font-family:"Apple SD Gothic Neo";}#headertop a,.sidemenu li a{font-family:"Apple SD Gothic Neo";}.logged-out #vibe_bp_login .fullscreen_login,#vibe_bp_login ul+ul{background:#474747;}#close_full_popup:before,#vibe_bp_login ul+ul li a,#vibe_bp_login ul+ul li a{color:#ffffff;}#vibe_bp_login,#wplms_custom_registration_form,#wplms_forgot_password_form,.logged-out #vibe_bp_login .fullscreen_login #vbp-login-form,.login_sidebar,#vibe_bp_login #wplms_custom_registration_form,#vibe_bp_login #wplms_forgot_password_form{background:#1e73be;}#vibe_bp_login .fullscreen_login label,#vibe_bp_login label,#vibe_bp_login ul li#vbplogout a,.login_sidebar .login_content #vbp-login-form label,.login_sidebar .login_content #sidebar-me #bpavatar+ul li#username a,.login_sidebar .login_content #sidebar-me #bpavatar+ul li a,.login_sidebar .login_content #sidebar-me #bpavatar+ul+ul li a,.login_sidebar .login_content #vbp-login-form label .tip,#vibe_bp_login a:hover,#vibe_bp_login ul li a{color:#ffffff;}h1{font-family:"Nanum Gothic";}h1{font-weight:400;}h1{font-size:28px;}h2{font-family:"Nanum Gothic";}h3{font-family:"Nanum Gothic";}h4{font-family:"Nanum Gothic";}h5{font-family:"Apple SD Gothic Neo";}h6{font-family:"Nanum Gothic";}#buddypress .widget_title,.widget .widget_title{font-family:"Nanum Gothic";}#buddypress .widget_title,.widget .widget_title{color:#444;}body,.pusher{background-color:#FFF;}.boxed .pusher,.content,#item-body,.widget.pricing,.dir-list,.item-list-tabs,#groups-dir-list,#course-dir-list,#group-create-body,body.boxed.custom-background .pusher,#buddypress .dir-form div.item-list-tabs#subnav,.unit_content{background-color:#FFF;}.content,#item-body,.widget.pricing,.dir-list,.item-list-tabs,#groups-dir-list,#course-dir-list,#buddypress ul.item-list li div.item-desc{color:#444;}body a,.content p a,.course_description p a,#buddypress a.activity-time-since,.author_info .readmore,.assignment_heading.heading a,.v_text_block a,.main_unit_content a:not(.button),.reply a,.link,.ahref{color:#142393;}.block.courseitem .star-rating+strong .amount,.block.courseitem .star-rating+a strong .amount,.block.courseitem .star-rating+strong>span,.block.courseitem .star-rating+a strong>span,span.amount,.block.courseitem .block_content .star-rating+strong,.block.courseitem .block_content .star-rating+a,.block.courseitem .instructor_course+strong,.block.courseitem .instructor_course+a,.pricing_course li strong,.widget .course_details>ul>li:first-child a,.widget .course_details>ul>li:first-child strong>span,.item-credits,.curriculum_check li span.done,.item-credits a,.pricing_course li strong span.subs,.widget .course_details>ul>li:first-child a strong>span,.widget .course_details>ul>li:first-child span.subs,#buddypress ul.item-list li .item-credits strong,#buddypress ul.item-list li .item-credits strong span.amount,#buddypress ul.item-list li .item-credits span{color:#1a66c6;}body,.content,#item-body,#buddypress ul.item-list li div.item-desc,p{font-size:16px;}body,.content,#item-body,#buddypress ul.item-list li div.item-desc,p{font-family:"Apple SD Gothic Neo";}#buddypress div.item-list-tabs,.widget .item-options,#buddypress div.item-list-tabs#object-nav,#buddypress div.item-list-tabs,.quiz_bar,.widget .course_cat_nav,.single-course.c2 #item-nav,.single-course.c3 #item-nav,.single-course.c5 #item-nav,.minimal.single-course.c2 #item-nav,.minimal.single-course.c3 #item-nav,.minimal.single-course.c5 #item-nav,.elegant.bp-user.p2 #buddypress #item-nav,.elegant.bp-user.p3 #buddypress #item-nav,.elegant.bp-user.p4 #buddypress #item-nav,.elegant.single-course.c2 #item-nav,.elegant.single-course.c3 #item-nav,.elegant.single-course.c5 #item-nav,.elegant.single-item.groups.g2 #buddypress #item-nav,.elegant.single-item.groups.g3 #buddypress #item-nav,.elegant.single-item.groups.g4 #buddypress #item-nav{background-color:#ffffff;}#course_creation_tabs,#buddypress div#item-header,.page-template-start .unit_prevnext,.page-template-start .course_timeline h4,.widget .course_cat_nav ul li>ul li,.single-course .course_header,.minimal.single-course.c2 .course_header,.minimal.single-course.c3 .course_header,.minimal.single-course.c5 .course_header,.elegant.single-course.c2 .course_header,.elegant.single-course.c3 .course_header{background-color:#eaeaea;}.button.primary,#vibe_bp_login li span,#buddypress li span.unread-count,#buddypress tr.unread span.unread-count,#searchsubmit{background-color:#5cb44a;}footer,.bbp-header,.bbp-footer,.boxed footer .container,footer .form_field,footer .input-text,footer .ninja-forms-field,footer .wpcf7 input.wpcf7-text,footer #s,footer .chosen-container.chosen-with-drop .chosen-drop,footer .chosen-container-active.chosen-with-drop .chosen-single,footer .chosen-container-single .chosen-single{background-color:#FFF;}footer,footer a,.footerwidget li a,footer .form_field,footer .input-text,footer .ninja-forms-field,footer .wpcf7 input.wpcf7-text,footer #s,.footerwidget .widget_course_list li h6,.footerwidget .widget_course_list li h6 span,footer .course-list1,footer .chosen-container.chosen-with-drop .chosen-drop,footer .chosen-container-active.chosen-with-drop .chosen-single,footer .chosen-container-single .chosen-single{color:#444;}.footertitle,footer h4,footer a,.footerwidget ul li a{color:#444;}#footerbottom,.boxed #footerbottom .container{background-color:#ffffff;}#footerbottom,#footerbottom a{color:#444444;}li[data-help-tag="13"]{display:none!important;}#headertop li{border-color:#515151;}#buddypress div.item-list-tabs ul li a:hover span,#buddypress .item-list-tabs ul li.current a span,#buddypress .item-list-tabs ul li.selected a span,.widget .course_cat_nav ul li.current-cat-parent>a span,.widget .course_cat_nav ul li.current-cat>a span,.course_pursue_panel .course_progressbar.progress .bar{background:#ffffff;}.minimal.woocommerce nav.woocommerce-pagination a:hover{color:#ffffff!important;}header #searchform:after,nav>.menu>li:hover>a:before{border-color:transparent transparent #ffffff transparent!important;}.elegant header nav>.menu>li.current-menu-item>a,.elegant header nav>.menu>li.current_page_item>a,.elegant header nav>.menu>li:hover>a{border-color:#ffffff;color:#ffffff;}.groove header nav>.menu>li.current-menu-item>a,.groove header nav>.menu>li.current_page_item>a,.groove header nav>.menu>li:hover>a{background:#ffffff;}.unit_content p span.side_comment:hover:after,.unit_content p span.side_comment.active:after{border-color:#00a0d2 transparent transparent #00a0d2!important;;}#vibe_bp_login:after{border-color:transparent transparent #474747 transparent;}header.fixed #trigger .lines,header.fixed #trigger .lines:after,header.fixed #trigger .lines:before,header.sleek.fixed #trigger .lines,header.sleek.fixed #trigger .lines:after,header.sleek.fixed #trigger .lines:before{background:#515151;}#trigger .lines,#trigger .lines:before,#trigger .lines:after{background:#ffffff}header #searchicon,header #searchform input[type="text"]{color:#ffffff;}.unit_prevnext{border-color:#ffffff;}.flexMenu-popup{background:#ffffff!important;}.course_timeline,.quiz_details{background:#ffffff;}.unit_prevnext,.course_timeline h4{background:#eaeaea;}.quiz_timeline li>span,.quiz_timeline li>a>span{background:#eaeaea;}.course_timeline,.course_timeline li.unit_line,.course_timeline li>span,.quiz_timeline .timeline_wrapper{border-color:#eaeaea;}.button.primary,#vibe_bp_login li span{border-color:#5cb44a}#buddypress a.bp-primary-action:hover span,#buddypress #reply-title small a:hover span,#buddypress div.messages-options-nav a,.unit_module ul.actions li span{color:#5cb44a}nav .menu-item-has-children:hover>a:before,header.sleek .vbpcart.active:after{border-color:transparent transparent #ffffff transparent;}.archive.woocommerce.minimal ul.products li.product .button.add_to_cart_button:hover,.woocommerce.minimal #respond input#submit.alt:hover,.woocommerce.minimal a.button.alt:hover,.woocommerce.minimal button.button.alt:hover,.woocommerce.minimal input.button.alt:hover,.minimal.woocommerce-page a.button:hover{background:#00a0d2!important;}body.loading.pageloader1 .global:before{border-top-color:#00a0d2;}body.loading.pageloader1 .global:after{border-left-color:#00a0d2;}#vibe_bp_login:after{border-color:transparent transparent #1e73be;}footer .form_field,footer .input-text,footer .ninja-forms-field,footer .wpcf7 input.wpcf7-text,footer #s,footer .chosen-container.chosen-with-drop .chosen-drop,footer .chosen-container-active.chosen-with-drop .chosen-single,footer .chosen-container-single .chosen-single{border-color:#ffffff;}</style> <style>.course_header,.group_header{background:url(https://www.inflearn.com/wp-content/uploads/courseback.png)!important;}#title{background:url(https://www.inflearn.com/wp-content/uploads/courseback.png)!important;padding-bottom:30px!important;background-size:cover;}#title.dark h1,#title.dark h5,#title.dark a:not(.button),#title.dark,#title.dark #item-admins h3,#item-header.dark #item-header-content .breadcrumbs li+li:before,#title.dark .breadcrumbs li+li:before,.group_header.dark div#item-header-content,.group_header.dark #item-header-content h3 a,.bbpress.dark .bbp-breadcrumb .bbp-breadcrumb-sep:after,#item-header.dark #item-admins h3,#item-header.dark #item-admins h5,#item-header.dark #item-admins h3 a,#item-header.dark #item-admins h5 a,#item-header.dark #item-header-content a,#item-header.dark #item-header-content{color:#222!important;}#title.light h1,#title.light h5,#title.light a:not(.button),#title.light,#title.light #item-admins h3,#item-header.light #item-header-content .breadcrumbs li+li:before,#item-header.light #item-admins h3,#item-header.light #item-admins h5,#item-header.light #item-admins h3 a,#item-header.light #item-admins h5 a,#title.light .breadcrumbs li+li:before,.group_header.light div#item-header-content,.group_header.light #item-header-content h3 a,.bbpress.light .bbp-breadcrumb .bbp-breadcrumb-sep:after,#item-header.light #item-header-content a,#item-header.light #item-header-content{color:#fff!important;}.bp-user div#global .pusher .member_header div#item-header{background:url(https://www.inflearn.com/wp-content/uploads/courseback.png);}.group_header #item-header{background-color:transparent!important;}</style>
+<noscript><style type="text/css">.wpb_animate_when_almost_visible{opacity:1;}</style></noscript></head>
+<body class="course  buddypress course-template-default single single-course postid-38407 d2 p4 c2 minimal logged-out wpb-js-composer js-comp-ver-5.1.1 vc_responsive">
+<div id="global" class="global">
+<div class="pagesidebar">
+<div class="sidebarcontent">
+<h2 id="sidelogo">
+<a href="https://www.inflearn.com"><img src="https://www.inflearn.com/wp-content/uploads/logowy.png" alt="인프런"/></a>
+</h2>
+<div class="mobile_icons"><a id="mobile_searchicon"><i class="fa fa-search"></i></a><a href="https://www.inflearn.com/cart-2/"><span class="fa fa-shopping-basket"><em>0</em></span></a></div><ul id="menu-guest-mobile" class="sidemenu"><li id="menu-item-28177" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28177"><a href="/high-rating/"><i class="icon-elusive-icons"></i> 추천 강좌</a></li>
+<li id="menu-item-23946" class="menu-item menu-item-type-taxonomy menu-item-object-course-cat menu-item-23946"><a href="https://www.inflearn.com/course-cat/development/"><i class="icon-screen"></i> 프로그래밍</a></li>
+<li id="menu-item-31073" class="menu-item menu-item-type-taxonomy menu-item-object-course-cat menu-item-31073"><a href="https://www.inflearn.com/course-cat/development/webdevelop/"><i class="icon-interface-window-1"></i> 웹 개발</a></li>
+<li id="menu-item-31074" class="menu-item menu-item-type-taxonomy menu-item-object-course-cat menu-item-31074"><a href="https://www.inflearn.com/course-cat/development/mobile/"><i class="icon-iphone"></i> 모바일 개발</a></li>
+<li id="menu-item-23943" class="menu-item menu-item-type-taxonomy menu-item-object-course-cat menu-item-23943"><a href="https://www.inflearn.com/course-cat/design/"><i class="icon-aperture-alt"></i> CG, 디자인</a></li>
+<li id="menu-item-23944" class="menu-item menu-item-type-taxonomy menu-item-object-course-cat menu-item-23944"><a href="https://www.inflearn.com/course-cat/marketing/"><i class="icon-portfolio"></i> 비즈니스 &#038; 마케팅</a></li>
+</ul> </div>
+<a class="sidebarclose"><span></span></a>
+</div>
+<div class="pusher">
+<header class="sleek transparent fix">
+<div class="container">
+<div class="row">
+<div class="col-md-9 col-sm-6 col-xs-4">
+<h2 id="logo">
+<a href="https://www.inflearn.com"><img src="https://www.inflearn.com/wp-content/uploads/logowy.png" id="header_logo" alt="인프런"><img id="header_mobile_logo" src="https://www.inflearn.com/wp-content/uploads/logog-120x22.png" class="hide" alt="인프런"><img id="header_alt_logo" alt="인프런" src="https://www.inflearn.com/wp-content/uploads/logogy.png" alt="인프런"/></a>
+</h2><nav class="menu-guest-main-container"><ul id="menu-guest-main" class="menu"><li id="main-menu-item-23934" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="https://www.inflearn.com/%ec%b6%94%ec%b2%9c-%ea%b0%95%ec%a2%8c/"><strong>추천강좌</strong></a></li>
+<li id="main-menu-item-23939" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children current_page_item"><a href="https://www.inflearn.com/all-courses/"><strong>분야별</strong></a>
+<ul class="sub-menu">
+<li id="main-menu-item-31343" class="menu-item menu-item-type-custom menu-item-object-custom megadrop cat_subcat"><div id="vibe-mega-cat_subcat95" class="menu-cat_subcat column2"><ul class="taxonomy_menu course-cat_menu"><li><a href="https://www.inflearn.com/course-cat/development/" class="term_development">프로그래밍</a><div class="sub_cat_menu column2 course-cat_development_menu "><div class="row"><div class="taxonomy_submenu "><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/programing-language/">프로그래밍 언어</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/mobile/">모바일</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/webdevelop/">웹 개발</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/software-engineering/">프로그래밍 교양</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/game-develop/">게임 개발</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/develop-tool/">개발 도구</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/network/">서버, 네트워크</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/security/">보안</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/database/">데이터베이스</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/%eb%8d%b0%ec%9d%b4%ed%84%b0-%ea%b3%bc%ed%95%99/">데이터 과학</a></div></div></div></div></li><li><a href="https://www.inflearn.com/course-cat/design/" class="term_design">CG, 디자인</a><div class="sub_cat_menu column2 course-cat_design_menu "><div class="row"><div class="taxonomy_submenu "><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/design/3d-cg/">CG 그래픽</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/design/photoshop/">포토샵 일러스트</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/design/video/">영상</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/design/3d/">3D 모델링</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/design/%ec%9e%90%ea%b2%a9%ec%a6%9d/">자격증</a></div></div></div></div></li><li><a href="https://www.inflearn.com/course-cat/marketing/" class="term_marketing">IT 비즈니스</a><div class="sub_cat_menu column2 course-cat_marketing_menu "><div class="row"><div class="taxonomy_submenu "><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/marketing/%ec%97%85%eb%ac%b4-%ed%9a%a8%ec%9c%a8%ec%84%b1/">업무 효율성</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/marketing/google-analytics/">구글 애널리틱스</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/marketing/office/">Office 기술</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/marketing/%ec%98%a8%eb%9d%bc%ec%9d%b8-%eb%a7%88%ec%bc%80%ed%8c%85/">온라인 마케팅</a></div></div></div></div></li><li><a href="https://www.inflearn.com/course-cat/development/programing-language/" class="term_"></a><div class="sub_cat_menu column2 course-cat__menu "><div class="row"><div class="taxonomy_submenu "><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/programing-language/c/">C, C++</a></div><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/programing-language/java/">java</a></div></div></div></div></li><li><a href="https://www.inflearn.com/course-cat/development/webdevelop/" class="term_"></a><div class="sub_cat_menu column2 course-cat__menu "><div class="row"><div class="taxonomy_submenu "><div class="col-md-6 clear2"><a href="https://www.inflearn.com/course-cat/development/webdevelop/wordpress/">워드프레스</a></div></div></div></div></li></ul></div></li>
+</ul>
+</li>
+<li id="main-menu-item-30382" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="https://www.inflearn.com/all-courses2/"><strong>전체강좌</strong></a></li>
+<li id="main-menu-item-30229" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="https://www.inflearn.com/open-knowledge/"><strong>지식공유 신청</strong></a></li>
+<li><a id="new_searchicon"><i class="fa fa-search"></i></a></li></ul></nav> </div>
+<div class="col-md-3 col-sm-6 col-xs-8">
+<ul class="topmenu">
+<li><a href="#login" rel="nofollow" class="smallimg vbplogin"><span>로그인</span></a></li>
+<li><a class="smallimg vbpcart"><span class="fa fa-shopping-cart"></span></a>
+<div class="woocart">
+<ul class="cart_list product_list_widget ">
+<li class="empty">장바구니에 상품이 없습니다.</li>
+</ul> 
+</div>
+</li>
+</ul>
+<div id="vibe_bp_login" class="modern">
+<div id="wplogin-modal">
+<div class="Aligner-item Aligner-item--top"></div>
+<div class="md-content">
+<div id="login_register_form">
+<div class="col-md-6">
+<form name="form" name="login-form" class="form-validation" action="https://www.inflearn.com/wp-login.php" method="post">
+<h3>로그인</h3>
+<div class="list-group list-group-sm">
+<div class="list-group-item">
+<label>ID(아이디)</label>
+<input type="text" name="log" placeholder="ID 입력" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
+</div>
+<div class="list-group-item">
+<label>비밀번호</label>
+<input type="password" name="pwd" placeholder="비밀번호를 입력" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
+</div>
+</div>
+<div class="pull-right"><a href="https://www.inflearn.com/wp-login.php?action=lostpassword" class="vbpforgot">비밀번호 찾기</a></div>
+<div class="checkbox">
+<input type="checkbox" id="rememberme" name="rememberme" value="forever">
+<label for="rememberme">아이디 기억하기</label>
+</div>
+<input type="submit" name="user-submit" class="btn btn-lg btn-primary btn-block" id="sidebar-wp-submit" data-security="b5d6d83abb" value="로그인" tabindex="100"/>
+<input type="hidden" name="user-cookie" value="1"/>
+<div class="line line-dashed"></div>
+</form>
+</div>
+<div class="col-md-6" id="vbp-login-form">
+<div class="inside_login_form">
+<h3>회원가입</h3>
+<a href="https://www.inflearn.com/register/" class="btn btn-lg btn-default btn-block vbpregister" href="#">아이디 만들기</a>
+ 
+<style type="text/css">.wp-social-login-connect-with{}.wp-social-login-provider-list{}.wp-social-login-provider-list a{}.wp-social-login-provider-list img{}.wsl_connect_with_provider{}</style>
+<div class="wp-social-login-widget">
+<div class="wp-social-login-connect-with">소셜 계정으로 로그인 하기</div>
+<div class="wp-social-login-provider-list">
+<a rel="nofollow" href="https://www.inflearn.com/wp-login.php?action=wordpress_social_authenticate&#038;mode=login&#038;provider=Facebook&#038;redirect_to=https%3A%2F%2Fwww.inflearn.com%2Fcourse%2Freinforcement-learning%2F" title="Connect with Facebook" class="wp-social-login-provider wp-social-login-provider-facebook" data-provider="Facebook">
+<img alt="Facebook" title="Connect with Facebook" src="https://www.inflearn.com/wp-content/plugins/wordpress-social-login/assets/img/32x32/wpzoom/facebook.png"/>
+</a>
+<a rel="nofollow" href="https://www.inflearn.com/wp-login.php?action=wordpress_social_authenticate&#038;mode=login&#038;provider=Google&#038;redirect_to=https%3A%2F%2Fwww.inflearn.com%2Fcourse%2Freinforcement-learning%2F" title="Connect with Google" class="wp-social-login-provider wp-social-login-provider-google" data-provider="Google">
+<img alt="Google" title="Connect with Google" src="https://www.inflearn.com/wp-content/plugins/wordpress-social-login/assets/img/32x32/wpzoom/google.png"/>
+</a>
+</div>
+<div class="wp-social-login-widget-clearing"></div>
+</div>
+ 
+</div>
+</div>
+</div>
+</div>
+<div class="Aligner-item Aligner-item--bottom"></div>
+</div>
+<div id="wplogin-modal-overlay">
+<a id="close-modal"></a>
+</div>
+</div>
+</div>
+<a id="trigger">
+<span class="lines"></span>
+</a>
+</div>
+</div>
+</header>
+<section>
+<div class="course_header">
+<div class="container">
+<div class="row">
+<div id="item-header" role="complementary">
+<div class="col-md-3">
+<div id="item-header-avatar">
+<a href="https://www.inflearn.com/course/reinforcement-learning/" title="모두를 위한 딥러닝 &#8211; Deep Reinforcement Learning"><img width="768" height="500" src="https://www.inflearn.com/wp-content/uploads/rl.jpg" class="attachment-full size-full wp-post-image" alt="머신러닝 강좌" srcset="https://www.inflearn.com/wp-content/uploads/rl.jpg 768w, https://www.inflearn.com/wp-content/uploads/rl-460x299.jpg 460w, https://www.inflearn.com/wp-content/uploads/rl-120x78.jpg 120w, https://www.inflearn.com/wp-content/uploads/rl-310x202.jpg 310w" sizes="(max-width: 768px) 100vw, 768px"/></a> </div> 
+</div>
+<div class="col-md-6">
+<div id="item-header-content">
+<ul class="breadcrumbs"><li><a href="https://www.inflearn.com"><span>홈</span></a></li><li class="current"><span><a href="https://www.inflearn.com/all-courses/">강좌</a></span></li><li class="current"><span><a href="https://www.inflearn.com/course-cat/development/">프로그래밍</a></span></li><li class="current"><span><a href="https://www.inflearn.com/course-cat/development/%eb%8d%b0%ec%9d%b4%ed%84%b0-%ea%b3%bc%ed%95%99/">데이터 과학</a></span></li><li class="current"><span><a href="https://www.inflearn.com/course-cat/development/%eb%a8%b8%ec%8b%a0%eb%9f%ac%eb%8b%9d/">머신러닝</a></span></li><li class="current"><span>모두를 위한 딥러닝 - Deep Reinforcement Learning</span></li></ul> <h1><a href="https://www.inflearn.com/course/reinforcement-learning/" title="모두를 위한 딥러닝 - Deep Reinforcement Learning">모두를 위한 딥러닝 - Deep Reinforcement Learning</a></h1>
+<div id="item-meta">
+<strong class="course-star-rating">
+<i class="hide">5</i><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span></strong><strong>( 4 수강평 )</strong> <div class="students"> 804 명 </div>
+<div itemscope itemtype="http://schema.org/Product">
+<meta itemprop="brand" content="인프런"/>
+<meta itemprop="name" content="모두를 위한 딥러닝 - Deep Reinforcement Learning"/>
+<meta itemprop="description" content="홍콩과기대 김성훈 교수님의 "모두를 위한 딥러닝" 강좌 두번째 시즌으로 '강화학습' 에 대해 학습해 봅니다."/> 
+								<meta itemprop="image" content="https://www.inflearn.com/wp-content/uploads/rl.jpg"/> 
+								<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"> 
+					<meta itemprop="ratingValue" content="5"/> <meta itemprop="reviewCount" content="4"/> 
+				</span>
+							</div>
+			
+		
+	</div>
+</div><!-- #item-header-content -->
+</div>
+<div class="col-md-3">
+	<div class="widget pricing">
+			<div class="course_details">
+              <ul><li class="course_price"><strong>무료</strong><i class="icon-wallet-money right"></i></li><li class="course_time"><i class="icon-clock"></i>무제한</li><li class="course_level"><i class="icon-bars"></i> <a href="https://www.inflearn.com/level/%ec%a4%91%ea%b8%89/" rel="tag">중급</a>, <a href="https://www.inflearn.com/level/%ec%b4%88%ea%b8%89/" rel="tag">초급</a></li><li><i class="icon-grid-alt"></i>18개 강의, 3 시간, 43 분</li></ul>
+            </div><div class="course_sharing"><ul class="socialicons "><li><a href="http://www.facebook.com/share.php?u=https://www.inflearn.com/course/reinforcement-learning/"  target="_blank" class="facebook"><i class="fa fa-facebook"></i></a></li><li><a href="http://twitter.com/share?url=https://www.inflearn.com/course/reinforcement-learning/"  target="_blank" class="twitter"><i class="fa fa-twitter"></i></a></li><li><a href="https://plus.google.com/share?url=https://www.inflearn.com/course/reinforcement-learning/"  target="_blank" class="google plus"><i class="fa fa-google plus"></i></a></li></ul></div>			<a href="https://www.inflearn.com/course/reinforcement-learning/?error=login" class="course_button button full ">이 강좌 수강하기</a>		</div>
+</div>
+				</div><!-- #item-header -->
+			</div>
+		</div>
+	</div>
+</section>
+<section>
+	<div id="item-nav">
+		<div class="container">
+			<div class="item-list-tabs no-ajax" id="object-nav" role="navigation">
+				<ul>
+										<li id="home" class="current"><a href="https://www.inflearn.com/course/reinforcement-learning/">홈</a></li><li id="custom" ><a href="https://www.inflearn.com/course/reinforcement-learning/?action=curriculum">교육과정</a></li>									</ul>
+			</div>
+		</div><!-- #item-nav -->
+	</div>
+</section>
+<section id="content">
+	<div id="buddypress">
+	    <div class="container">
+	    		        <div class="row">
+				<div class="col-md-9">	
+<div id="item-body">
+	
+	<div class="course_description">
+	<h6><p>홍콩과기대 김성훈 교수님의 &#8220;모두를 위한 딥러닝&#8221; 강좌 두번째 시즌으로 &#8216;강화학습&#8217; 에 대해 학습해 봅니다.</p>
+</h6>	<div class="small_desc">
+	<div class="fitvids"> <iframe width="1066" height="635" src="https://www.youtube.com/embed/dZ4vw6v3LcA?rel=0&modestbranding=1&vq=hd720" frameborder="0" allowfullscreen="allowfullscreen"></iframe> </div>
+<h3><span style="color: #ff0000;">1.</span> 강좌 소개</h3>
+<blockquote><p>본 <strong>Reinforcement Learning(강화학습)</strong> 강좌는 홍콩과학기술대학교의 김성훈 교수님의 &#8216;모두를 위한 딥러닝&#8217; 시리즈의 두번째 강좌입니다. 앞선 강좌로  <a href="/course/기본적인-머신러닝-딥러닝-강좌/" target="_blank">기본적인 머신러닝과 딥러닝 강좌</a> 가 있습니다.</p>
+<p>일주일에 한강좌씩 천천이 업데이트 예정입니다.</p></blockquote>
+<p>알파고와 이세돌의 경기를 보면서 이제 머신 러닝이 인간이 잘 한다고 여겨진 직관과 의사 결정능력에서도 충분한 데이타가 있으면 어느정도 또는 우리보다 더 잘할수도 있다는 생각을 많이 하게 되었습니다. Andrew Ng 교수님이 말씀하신것 처럼 이런 시대에 머신 러닝을 잘 이해하고 잘 다룰수 있다면 그야말로 &#8220;Super Power&#8221;를 가지게 되는 것이 아닌가 생각합니다.</p>
+<p>더 많은 분들이 머신 러닝과 딥러닝에 대해 더 이해하고 본인들의 문제를 이 멋진 도구를 이용해서 풀수 있게 하기위해 비디오 강의를 준비하였습니다. 더 나아가 이론에만 그치지 않고 최근 구글이 공개한 머신러닝을 위한 오픈소스인 TensorFlow를 이용해서 이론을 구현해 볼수 있도록 하였습니다.</p>
+<p>이 머신러닝, 딥러닝 강좌는 수학이나 컴퓨터 공학적인 지식이 없이도 쉽게 볼수 있도록 만들려고 노력하였습니다.</p>
+<h3><span style="color: #ff0000;">2.</span> 도움되는 분들</h3>
+<ul>
+<li>인공지능에 대해 관심이 있는 누구나</li>
+<li>머닝러신, 딥러닝의 개념을 이해하고 싶으신분</li>
+<li>머닝러신의 직접 구현해보고 싶으신 분</li>
+<li>앞선 <a href="/course/기본적인-머신러닝-딥러닝-강좌/" target="_blank">기본적인 머신러닝과 딥러닝 강좌</a> 를 학습하신 분</li>
+<li>강화학습에 대해 관심이 있는 분</li>
+</ul>
+<h3><span style="color: #ff0000;">3.</span> 참고자료</h3>
+<p>이 비디오는 저도 인터넷등을 통해 공부하면서 만든것이며 아래 자료를 많이 사용하였습니다.</p>
+<ul>
+<li>Andrew Ng’s and other ML tutorials
+<ul>
+<li><a href="https://class.coursera.org/ml-003/lecture" target="_blank">https://class.coursera.org/ml-003/lecture</a></li>
+<li><a href="http://www.holehouse.org/mlclass/" target="_blank">http://www.holehouse.org/mlclass/</a> (note)</li>
+<li><a href="http://deeplearning.stanford.edu/tutorial/" target="_blank">Deep Learning Tutorial</a></li>
+</ul>
+</li>
+<li>Convolutional Neural Networks for Visual Recognition.
+<ul>
+<li><a href="http://cs231n.github.io/" target="_blank">http://cs231n.github.io/</a></li>
+</ul>
+</li>
+<li>Tensorflow
+<ul>
+<li><a href="https://www.tensorflow.org/" target="_blank">https://www.tensorflow.org</a></li>
+<li><a href="https://github.com/aymericdamien/TensorFlow-Examples" target="_blank">https://github.com/aymericdamien/TensorFlow-Examples</a></li>
+<li><a href="https://www.udacity.com/course/viewer#!/c-ud730/l-6370362152/m-6379811817" target="_blank">Deep learning @Udicity</a></li>
+</ul>
+</li>
+</ul>
+<h3><span style="color: #ff0000;">4.</span> 지식공유자 소개</h3>
+<blockquote><p><strong>김성훈</strong></p>
+<p>Hong Kong University of Science and Technology 에서 컴퓨터 공학쪽으로 연구를 하고 있습니다.<br />
+비디오나 강의에 대한 의견이 있으시면 아래로 이메일을 보내 주시면 됩니다.<br />
+hunkim+ml@gmail.com</p></blockquote>
+		</div>
+		
+</div>
+<div class="course_reviews">
+  <h3 class="heading">강좌 평가</h3>
+  <div class="review_breakup">
+        <div class="col-md-6">
+      <div class="rating_snapshot">
+        <h2>5</h2>
+        <div class="modern-star-rating"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></div><span>4 개의 수강평</span>      </div>
+    </div>
+    <div class="col-md-6">
+      <ul class="rating_breakup">
+      <li><span>5 점</span><strong><span style="width:80%">4</span></strong></li><li><span>4 점</span><strong><span style="width:0%">0</span></strong></li><li><span>3 점</span><strong><span style="width:0%">0</span></strong></li><li><span>2 점</span><strong><span style="width:0%">0</span></strong></li><li><span>1 점</span><strong><span style="width:0%">0</span></strong></li>      </ul>
+    </div>
+  </div>
+  <div class="show_course_reviews">
+      
+      <ol class="reviewlist commentlist"> 
+           <li class="comment byuser comment-author-feelpassion even thread-even depth-1" id="li-comment-9429">
+       <div id="comment-9429" class="comment-body">
+         <div class="comment-body-inner">
+             <div class="comment-avatar">
+               <img src="https://www.inflearn.com/wp-content/uploads/300.png" class="avatar user-39114-avatar avatar-120 photo" width="120" height="120" alt="권형달의 프로필 사진" />             </div><!-- END avatar -->
+             <div class="comment-body-content">
+               <div class="comment-meta">
+                 <a href='https://www.inflearn.com/members/feelpassion/' rel='external nofollow' class='url'>권형달</a><a href="https://www.inflearn.com/course/reinforcement-learning/#comment-9429">2017년 4월 17일 at 1:44 오후</a><a rel="nofollow" class="comment-reply-login" href="https://www.inflearn.com/wp-login.php?redirect_to=https%3A%2F%2Fwww.inflearn.com%2Fcourse%2Freinforcement-learning%2F">답글을 달기 위해 로그인</a>               </div><!-- END comment-author vcard -->
+                              <div class="comment-text">
+               <h3>넘 쉽게 잘 가르쳐 주셔서 감사합니다~!</h3><div class="course-star-rating"><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span></div><p>하루 반 만에 reinforcement learning이 무엇인지 알 수 있게 되었습니다.<br />
+어려운 수식을 쉽게 설명해주셔서 정말 감사드립니다.</p>
+<p>최고의 강의입니다!</p>
+               </div>
+            </div> 
+         </div>
+       </div>
+     </li>
+     </li><!-- #comment-## -->
+     <li class="comment byuser comment-author-org817 odd alt thread-odd thread-alt depth-1" id="li-comment-9307">
+       <div id="comment-9307" class="comment-body">
+         <div class="comment-body-inner">
+             <div class="comment-avatar">
+               <img src="https://www.inflearn.com/wp-content/uploads/300.png" class="avatar user-6948-avatar avatar-120 photo" width="120" height="120" alt="오록규의 프로필 사진" />             </div><!-- END avatar -->
+             <div class="comment-body-content">
+               <div class="comment-meta">
+                 <a href='https://www.inflearn.com/members/org817/' rel='external nofollow' class='url'>오록규</a><a href="https://www.inflearn.com/course/reinforcement-learning/#comment-9307">2017년 4월 12일 at 1:52 오후</a><a rel="nofollow" class="comment-reply-login" href="https://www.inflearn.com/wp-login.php?redirect_to=https%3A%2F%2Fwww.inflearn.com%2Fcourse%2Freinforcement-learning%2F">답글을 달기 위해 로그인</a>               </div><!-- END comment-author vcard -->
+                              <div class="comment-text">
+               <h3>쉽게 가르쳐 주셔서 좋습니다</h3><div class="course-star-rating"><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span></div><p>이런 강좌를 제공 해 주셔서 감사합니다~</p>
+               </div>
+            </div> 
+         </div>
+       </div>
+     </li>
+     </li><!-- #comment-## -->
+     <li class="comment byuser comment-author-sangjo_han even thread-even depth-1" id="li-comment-8750">
+       <div id="comment-8750" class="comment-body">
+         <div class="comment-body-inner">
+             <div class="comment-avatar">
+               <img src="https://www.inflearn.com/wp-content/uploads/300.png" class="avatar user-16518-avatar avatar-120 photo" width="120" height="120" alt="SangJo Han의 프로필 사진" />             </div><!-- END avatar -->
+             <div class="comment-body-content">
+               <div class="comment-meta">
+                 <a href='https://www.inflearn.com/members/sangjo_han/' rel='external nofollow' class='url'>SangJo Han</a><a href="https://www.inflearn.com/course/reinforcement-learning/#comment-8750">2017년 3월 23일 at 3:37 오후</a><a rel="nofollow" class="comment-reply-login" href="https://www.inflearn.com/wp-login.php?redirect_to=https%3A%2F%2Fwww.inflearn.com%2Fcourse%2Freinforcement-learning%2F">답글을 달기 위해 로그인</a>               </div><!-- END comment-author vcard -->
+                              <div class="comment-text">
+               <h3>베스트!</h3><div class="course-star-rating"><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span></div><p>이렇게 좋은 강의를 무료 공개해 주셔서 감사합니다. 잘 듣고 개념 이해하고 갑니다!</p>
+               </div>
+            </div> 
+         </div>
+       </div>
+     </li>
+     </li><!-- #comment-## -->
+     <li class="comment byuser comment-author-bluedisk odd alt thread-odd thread-alt depth-1" id="li-comment-6840">
+       <div id="comment-6840" class="comment-body">
+         <div class="comment-body-inner">
+             <div class="comment-avatar">
+               <img src="https://www.inflearn.com/wp-content/uploads/300.png" class="avatar user-26315-avatar avatar-120 photo" width="120" height="120" alt="이원우의 프로필 사진" />             </div><!-- END avatar -->
+             <div class="comment-body-content">
+               <div class="comment-meta">
+                 <a href='https://www.inflearn.com/members/bluedisk/' rel='external nofollow' class='url'>이원우</a><a href="https://www.inflearn.com/course/reinforcement-learning/#comment-6840">2017년 2월 1일 at 9:10 오후</a><a rel="nofollow" class="comment-reply-login" href="https://www.inflearn.com/wp-login.php?redirect_to=https%3A%2F%2Fwww.inflearn.com%2Fcourse%2Freinforcement-learning%2F">답글을 달기 위해 로그인</a>               </div><!-- END comment-author vcard -->
+                              <div class="comment-text">
+               <h3>새로운 레전드의 시작!!</h3><div class="course-star-rating"><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span></div><p>모두에게 딥러닝을 가르쳐 버리시더니 RL까지 가르치려고 하시다니 무시무시합니다!<br />
+여러분 조심하세요!<br />
+이거 궁금하다고 실수로 강의를 봐버리면 RL을 배워버리고 맙니다!!</p>
+               </div>
+            </div> 
+         </div>
+       </div>
+     </li>
+     </li><!-- #comment-## -->
+  
+      </ol> 
+    </div>
+</div>
+			<div class="course_curriculum ">
+				
+<div class="course_title">
+	<h2>강좌 교육과정</h2>
+</div>
+<div class="course_curriculum ">
+<table class="table">				<tr class="course_section">
+					<td colspan="4">Lecture 1. 수업의 개요</td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%88%98%ec%97%85%ec%9d%98-%ea%b0%9c%ec%9a%94/" class="ajax_unit">수업의 개요</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 13:00</span></td>
+				</tr>
+								<tr class="course_section">
+					<td colspan="4">Lecture 2. OpenAI GYM 게임해보기</td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%9d%b4%eb%a1%a0-openai-gym-%ea%b2%8c%ec%9e%84%ed%95%b4%eb%b3%b4%ea%b8%b0/" class="ajax_unit">이론 &#8211; OpenAI GYM 게임해보기</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 10:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-openai-gym-%ea%b2%8c%ec%9e%84%ed%95%b4%eb%b3%b4%ea%b8%b0/" class="ajax_unit">실습 &#8211; OpenAI GYM 게임해보기</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 09:00</span></td>
+				</tr>
+								<tr class="course_section">
+					<td colspan="4">Lecture 3: Dummy Q-learning (table)</td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%9d%b4%eb%a1%a0-dummy-q-learning-table/" class="ajax_unit">이론 &#8211; Dummy Q-learning (table)</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 21:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-dummy-q-learning-table/" class="ajax_unit">실습 &#8211; Dummy Q-learning (table)</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 13:00</span></td>
+				</tr>
+								<tr class="course_section">
+					<td colspan="4">Lecture 4: Q-learning exploit&exploration and discounted reward</td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%9d%b4%eb%a1%a0-q-learning-exploitexploration-and-discounted-reward/" class="ajax_unit">이론 &#8211; Q-learning exploit&#038;exploration and discounted reward</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 17:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-q-learning-exploitexploration-and-discounted-reward/" class="ajax_unit">실습 &#8211; Q-learning exploit&#038;exploration and discounted reward</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 07:00</span></td>
+				</tr>
+								<tr class="course_section">
+					<td colspan="4">Lecture 5: Q-learning in non-deterministic world</td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%9d%b4%eb%a1%a0-q-learning-in-non-deterministic-world/" class="ajax_unit">이론 &#8211; Q-learning in non-deterministic world</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 14:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-q-learning-in-non-deterministic-world/" class="ajax_unit">실습 &#8211; Q-learning in non-deterministic world</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 09:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-q-learning-table-demo-by-jae-hyun-lee/" class="ajax_unit">실습 &#8211; Q-learning (Table) Demo by Jae Hyun Lee</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 01:00</span></td>
+				</tr>
+								<tr class="course_section">
+					<td colspan="4">Lecture 6: Q-Network</td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td>이론 &#8211; Q-Network</td>
+					<td> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 16:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td>실습 1 &#8211; Q Network for Frozen Lake</td>
+					<td> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 18:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td>실습 2 &#8211; Q Network for Cart Pole</td>
+					<td> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 21:00</span></td>
+				</tr>
+								<tr class="course_section">
+					<td colspan="4">Lecture 7: DQN</td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%9d%b4%eb%a1%a0-dqn/" class="ajax_unit">이론 &#8211; DQN</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 17:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-dqn-1-nips-2013/" class="ajax_unit">실습 &#8211; DQN 1 (NIPS 2013)</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 19:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-dqn-2-nature-2015/" class="ajax_unit">실습 &#8211; DQN 2 (Nature 2015)</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 16:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-dqn-cart-pole-demo/" class="ajax_unit">실습 &#8211; DQN Cart Pole Demo</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 01:00</span></td>
+				</tr>
+								<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-play"></i></td>
+					<td><a href="https://www.inflearn.com/unit/%ec%8b%a4%ec%8a%b5-dqn-simple-pacman-demo-%ec%97%ac%eb%9f%ac%eb%b6%84%ec%9d%80-%ec%b5%9c%ea%b3%a0-%eb%aa%87%ec%a0%90%ea%b9%8c%ec%a7%80-%ea%b0%88%ec%88%98-%ec%9e%88%eb%82%98%ec%9a%94/" class="ajax_unit">실습 &#8211; DQN Simple Pacman Demo (여러분은 최고 몇점까지 갈수 있나요?)</a></td>
+					<td><span class="free">바로보기</span> </td>
+					<td><span class="time"><i class="fa fa-clock-o"></i> 01:00</span></td>
+				</tr>
+				</table></div>
+
+			</div>
+		
+
+</div><!-- #item-body -->
+
+					
+				</div>
+				<div class="col-md-3">	
+					<div class="widget pricing">
+						<div class="instructor_course"><div class="item-avatar"><img src="https://www.inflearn.com/wp-content/uploads/avatars/4473/4473-bpthumb.jpg" class="avatar user-4473-avatar avatar-150 photo" width="150" height="150" alt="프로필 사진" /></div><h5 class="course_instructor"><a href="https://www.inflearn.com/members/sung-3/">Sung Kim<span></span></a></h5></div><div class="instructor_course"><div class="item-avatar"><img src="https://www.inflearn.com/wp-content/uploads/avatars/17/b415d9fa24d186c4adf22ca9a49116b5-bpthumb.png" class="avatar user-17-avatar avatar-150 photo" width="150" height="150" alt="프로필 사진" /></div><h5 class="course_instructor"><a href="https://www.inflearn.com/members/inflearn/">인프런<span></span></a></h5></div><div class="course_details">
+              <ul><li class="course_price"><strong>무료</strong><i class="icon-wallet-money right"></i></li><li class="course_time"><i class="icon-clock"></i>무제한</li><li class="course_level"><i class="icon-bars"></i> <a href="https://www.inflearn.com/level/%ec%a4%91%ea%b8%89/" rel="tag">중급</a>, <a href="https://www.inflearn.com/level/%ec%b4%88%ea%b8%89/" rel="tag">초급</a></li><li><i class="icon-grid-alt"></i>18개 강의, 3 시간, 43 분</li></ul>
+            </div><div class="course_sharing"><ul class="socialicons "><li><a href="http://www.facebook.com/share.php?u=https://www.inflearn.com/course/reinforcement-learning/"  target="_blank" class="facebook"><i class="fa fa-facebook"></i></a></li><li><a href="http://twitter.com/share?url=https://www.inflearn.com/course/reinforcement-learning/"  target="_blank" class="twitter"><i class="fa fa-twitter"></i></a></li><li><a href="https://plus.google.com/share?url=https://www.inflearn.com/course/reinforcement-learning/"  target="_blank" class="google plus"><i class="fa fa-google plus"></i></a></li></ul></div>						
+						
+						
+					</div>
+				 	<div class="widget buddypress widget"><div class="course_instructor_widget"><div class="instructor_course"><div class="item-avatar"><img src="https://www.inflearn.com/wp-content/uploads/avatars/4473/4473-bpthumb.jpg" class="avatar user-4473-avatar avatar-150 photo" width="150" height="150" alt="프로필 사진" /></div><h5 class="course_instructor"><a href="https://www.inflearn.com/members/sung-3/">Sung Kim<span></span></a></h5></div><div class="instructor_course"><div class="item-avatar"><img src="https://www.inflearn.com/wp-content/uploads/avatars/17/b415d9fa24d186c4adf22ca9a49116b5-bpthumb.png" class="avatar user-17-avatar avatar-150 photo" width="150" height="150" alt="프로필 사진" /></div><h5 class="course_instructor"><a href="https://www.inflearn.com/members/inflearn/">인프런<span></span></a></h5></div><div class="description"></div><a href="https://www.inflearn.com/author/sung-3/instructing-courses" class="tip" title="다음 지식공유자의 모든 강좌 :Sung Kim"><i class="icon-plus-1"></i></a><h5>다른 강좌 보기 : Sung Kim</h5><ul class="widget_course_list"><li><a href="https://www.inflearn.com/course/reinforcement-learning/"><img width="150" height="150" src="https://www.inflearn.com/wp-content/uploads/rl-150x150.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="머신러닝 강좌" srcset="https://www.inflearn.com/wp-content/uploads/rl-150x150.jpg 150w, https://www.inflearn.com/wp-content/uploads/rl-180x180.jpg 180w, https://www.inflearn.com/wp-content/uploads/rl-300x300.jpg 300w, https://www.inflearn.com/wp-content/uploads/rl-32x32.jpg 32w, https://www.inflearn.com/wp-content/uploads/rl-50x50.jpg 50w, https://www.inflearn.com/wp-content/uploads/rl-64x64.jpg 64w, https://www.inflearn.com/wp-content/uploads/rl-96x96.jpg 96w, https://www.inflearn.com/wp-content/uploads/rl-128x128.jpg 128w" sizes="(max-width: 150px) 100vw, 150px" /><h6>모두를 위한 딥러닝 &#8211; Deep Reinforcement Learning<span>by Sung Kim</span></h6></a><li><a href="https://www.inflearn.com/course/%ea%b8%b0%eb%b3%b8%ec%a0%81%ec%9d%b8-%eb%a8%b8%ec%8b%a0%eb%9f%ac%eb%8b%9d-%eb%94%a5%eb%9f%ac%eb%8b%9d-%ea%b0%95%ec%a2%8c/"><img width="150" height="150" src="https://www.inflearn.com/wp-content/uploads/machinelearning1-150x150.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="머신러닝" srcset="https://www.inflearn.com/wp-content/uploads/machinelearning1-150x150.jpg 150w, https://www.inflearn.com/wp-content/uploads/machinelearning1-180x180.jpg 180w, https://www.inflearn.com/wp-content/uploads/machinelearning1-300x300.jpg 300w, https://www.inflearn.com/wp-content/uploads/machinelearning1-32x32.jpg 32w, https://www.inflearn.com/wp-content/uploads/machinelearning1-64x64.jpg 64w, https://www.inflearn.com/wp-content/uploads/machinelearning1-96x96.jpg 96w, https://www.inflearn.com/wp-content/uploads/machinelearning1-128x128.jpg 128w" sizes="(max-width: 150px) 100vw, 150px" /><h6>모두를 위한 딥러닝 &#8211; 기본적인 머신러닝과 딥러닝 강좌<span>by Sung Kim</span></h6></a></ul></div></div>	<div class="widget buddypress widget"><h4 class="widget_title">같은 분야 강좌</h4><div class="widget_carousel flexslider  no-ajax"><ul class="slides"><li><div class="block courseitem" data-id="41871"><div class="block_media"><a href="https://www.inflearn.com/course/sencha-extjs-6-%ec%8b%a4%ec%a0%84%ec%9d%91%ec%9a%a9/"><img width="300" height="195" src="https://www.inflearn.com/wp-content/uploads/extjs-460x299.png" class="attachment-medium size-medium wp-post-image" alt="" srcset="https://www.inflearn.com/wp-content/uploads/extjs-460x299.png 460w, https://www.inflearn.com/wp-content/uploads/extjs-1024x667.png 1024w, https://www.inflearn.com/wp-content/uploads/extjs-120x78.png 120w, https://www.inflearn.com/wp-content/uploads/extjs-310x202.png 310w, https://www.inflearn.com/wp-content/uploads/extjs-768x500.png 768w" sizes="(max-width: 300px) 100vw, 300px" /></a></div><div class="block_content"><h4 class="block_title"><a href="https://www.inflearn.com/course/sencha-extjs-6-%ec%8b%a4%ec%a0%84%ec%9d%91%ec%9a%a9/" title="Sencha ExtJS 6 로 웹 어플리케이션 만들기- 실전/응용편">Sencha ExtJS 6 로 웹 어플리케이션 만들기- 실전/응용편</a></h4><div class="star-rating"><span></span><span></span><span></span><span></span><span></span></div><strong>무료</strong><i class="icon-wallet-money right"></i><span class="clear"></span><strong><i class="fa fa-users"></i> 2</strong></div></div></li><li><div class="block courseitem" data-id="41791"><div class="block_media"><a href="https://www.inflearn.com/course/%eb%ac%b8%ec%84%9c%ed%98%95-%ec%95%85%ec%84%b1%ec%bd%94%eb%93%9c/"><img width="300" height="194" src="https://www.inflearn.com/wp-content/uploads/documentsecure-460x298.jpg" class="attachment-medium size-medium wp-post-image" alt="문서 악성코드" srcset="https://www.inflearn.com/wp-content/uploads/documentsecure-460x298.jpg 460w, https://www.inflearn.com/wp-content/uploads/documentsecure-120x78.jpg 120w, https://www.inflearn.com/wp-content/uploads/documentsecure-310x201.jpg 310w, https://www.inflearn.com/wp-content/uploads/documentsecure.jpg 767w" sizes="(max-width: 300px) 100vw, 300px" /></a></div><div class="block_content"><h4 class="block_title"><a href="https://www.inflearn.com/course/%eb%ac%b8%ec%84%9c%ed%98%95-%ec%95%85%ec%84%b1%ec%bd%94%eb%93%9c/" title="문서형 악성코드 이해 및 분석 실습">문서형 악성코드 이해 및 분석 실습</a></h4><div class="star-rating"><span></span><span></span><span></span><span></span><span></span></div><strong><del><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#8361;</span>120,000</span></del> <ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#8361;</span>90,000</span></ins></strong><i class="icon-wallet-money right"></i><span class="clear"></span><strong><i class="fa fa-users"></i> 2</strong></div></div></li><li><div class="block courseitem" data-id="41228"><div class="block_media"><a href="https://www.inflearn.com/course/firebase-%ec%9c%84%ec%b9%98%ea%b8%b0%eb%b0%98/"><img width="300" height="195" src="https://www.inflearn.com/wp-content/uploads/firebase_location-460x299.png" class="attachment-medium size-medium wp-post-image" alt="파이어베이스" srcset="https://www.inflearn.com/wp-content/uploads/firebase_location-460x299.png 460w, https://www.inflearn.com/wp-content/uploads/firebase_location-120x78.png 120w, https://www.inflearn.com/wp-content/uploads/firebase_location-310x202.png 310w, https://www.inflearn.com/wp-content/uploads/firebase_location.png 768w" sizes="(max-width: 300px) 100vw, 300px" /></a></div><div class="block_content"><h4 class="block_title"><a href="https://www.inflearn.com/course/firebase-%ec%9c%84%ec%b9%98%ea%b8%b0%eb%b0%98/" title="파이어베이스(Firebase)를 이용한 위치기반서비스 만들기">파이어베이스(Firebase)를 이용한 위치기반서비스 만들기</a></h4><div class="star-rating"><span></span><span></span><span></span><span></span><span></span></div><strong><del><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#8361;</span>10,000</span></del> <ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#8361;</span>4,000</span></ins></strong><i class="icon-wallet-money right"></i><span class="clear"></span><strong><i class="fa fa-users"></i> 13</strong></div></div></li><li><div class="block courseitem" data-id="40619"><div class="block_media"><a href="https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%ec%9a%b0%eb%b6%84%ed%88%ac-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/"><img width="300" height="195" src="https://www.inflearn.com/wp-content/uploads/ubuntu-460x299.jpg" class="attachment-medium size-medium wp-post-image" alt="우분투 강좌" srcset="https://www.inflearn.com/wp-content/uploads/ubuntu-460x299.jpg 460w, https://www.inflearn.com/wp-content/uploads/ubuntu-120x78.jpg 120w, https://www.inflearn.com/wp-content/uploads/ubuntu-310x202.jpg 310w, https://www.inflearn.com/wp-content/uploads/ubuntu.jpg 768w" sizes="(max-width: 300px) 100vw, 300px" /></a></div><div class="block_content"><h4 class="block_title"><a href="https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%ec%9a%b0%eb%b6%84%ed%88%ac-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/" title="이것이 우분투 리눅스다">이것이 우분투 리눅스다</a></h4><div class="star-rating"><span></span><span></span><span></span><span></span><span></span></div><strong>무료</strong><i class="icon-wallet-money right"></i><span class="clear"></span><strong><i class="fa fa-users"></i> 141</strong></div></div></li><li><div class="block courseitem" data-id="40164"><div class="block_media"><a href="https://www.inflearn.com/course/%ed%85%8c%ec%8a%a4%ed%8a%b8%ec%a3%bc%eb%8f%84%ea%b0%9c%eb%b0%9c-tdd-nodejs-api/"><img width="300" height="195" src="https://www.inflearn.com/wp-content/uploads/nodeapi-460x299.png" class="attachment-medium size-medium wp-post-image" alt="테스트주도개발 api" srcset="https://www.inflearn.com/wp-content/uploads/nodeapi-460x299.png 460w, https://www.inflearn.com/wp-content/uploads/nodeapi-120x78.png 120w, https://www.inflearn.com/wp-content/uploads/nodeapi-310x202.png 310w, https://www.inflearn.com/wp-content/uploads/nodeapi.png 768w" sizes="(max-width: 300px) 100vw, 300px" /></a></div><div class="block_content"><h4 class="block_title"><a href="https://www.inflearn.com/course/%ed%85%8c%ec%8a%a4%ed%8a%b8%ec%a3%bc%eb%8f%84%ea%b0%9c%eb%b0%9c-tdd-nodejs-api/" title="테스트주도개발(TDD)로 만드는 NodeJS API 서버">테스트주도개발(TDD)로 만드는 NodeJS API 서버</a></h4><div class="star-rating"><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="fill"></span><span class="half"></span></div><strong><del><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#8361;</span>30,000</span></del> <ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#8361;</span>18,000</span></ins></strong><i class="icon-wallet-money right"></i><span class="clear"></span><strong><i class="fa fa-users"></i> 85</strong></div></div></li></ul></div></div>					</div>
+			</div><!-- .row -->
+		</div><!-- .container -->
+	</div><!-- #buddypress -->
+</section>	<footer>
+    <div class="container">
+        <div class="row">
+            <div class="footertop">
+                <div id="text-9" class="col-md-4 col-sm-4"><div class="footerwidget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.6&appId=1104303132929510";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-page" data-href="https://www.facebook.com/inflearn/" data-small-header="true" data-adapt-container-width="false" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://www.facebook.com/inflearn/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/inflearn/">인프런 - 배움으로 가치를 높이세요.</a></blockquote></div></div>
+		</div></div><div id="text-6" class="col-md-4 col-sm-4"><div class="footerwidget widget_text"><h4 class="footertitle"><span>Hello</span></h4>			<div class="textwidget">이용해 주셔서 감사합니다. 불편한 점이나 건의하실 일이 있으시면 왼쪽 하단 녹색창이나, 아래 카톡아이디로 말씀해 주세요!!<br><br><a href="http://plus.kakao.com/home/@인프런"><img src="https://inflearn.com/wp-content/uploads/yellowIDbanner.jpg"></a></div>
+		</div></div><div id="text-7" class="col-md-4 col-sm-4"><div class="footerwidget widget_text">			<div class="textwidget"><style> #button9940{background-color:#42B349 !important;color:#fff !important;font-size:20px !important;width:80%;} #button9940:hover{}</style><a target="_self" id="button9940" class="button hjCenter" href="/open-knowledge"> 지식공유참여 </a>
+<style> #button6125{background-color:#45A4CB !important;color:#fff !important;font-size:20px !important;width:80%;} #button6125:hover{}</style><a target="_self" id="button6125" class="button hjCenter" href="/aboutinflearn/"> 고객센터 </a></div>
+		</div></div>            </div>
+        </div>
+        <div class="row">
+            <div class="footerbottom">
+                                            </div>
+        </div>
+    </div> 
+    <div id="scrolltop">
+        <a><i class="icon-arrow-1-up"></i><span>top</span></a>
+    </div>
+</footer>
+<div id="footerbottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h2 id="footerlogo"><a href="https://www.inflearn.com/"><img src="https://www.inflearn.com/wp-content/uploads/logog.png" alt="인프런" /></a></h2>
+                <span class="hjShowPc">(주)인프랩 | 대표자:이형주 | TEL:070-4202-1180 | 주소:서울시 강남구 테헤란로2길 8, 4층(역삼동)<br>E-MAIL: course@inflearn.com | 사업자번호:499-81-00612 | 개인정보보호책임자:이형주<br>통신판매업:2017-서울강남-01544 | ©INFLAB. ALL RIGHTS RESERVED</span>
+            </div>
+            <div class="col-md-4">
+                                        <div id="footermenu">
+                            <ul id="menu-footer-menu" class="footermenu"><li id="menu-item-27061" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-27061"><a href="https://www.inflearn.com/category/newofinflearn/">인프런 소식</a></li>
+<li id="menu-item-28168" class="menu-item menu-item-type-post_type menu-item-object-forum menu-item-28168"><a href="https://www.inflearn.com/forums/forum/request/">요청 &#038; 문의</a></li>
+<li id="menu-item-23898" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23898"><a href="https://www.inflearn.com/agree2/">이용약관</a></li>
+<li id="menu-item-23899" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23899"><a href="https://www.inflearn.com/personalinfo/">개인정보취급방침</a></li>
+</ul>                        </div> 
+                                    </div>
+        </div>
+    </div>
+</div>
+<!--
+<div id="hjPop">
+	<a href="/forums/forum/request/" id="talkwithme">	
+        <div id="hjPopPlzOn">
+	        <style> #icon792{font-size:30px;background:#5cf95c;padding:15px 10px 0;border-radius:10px;color:#ffffff;}
+            #icon792:hover{color:#ffffff;background:#00A500;}</style><i class="icon-chat clicked" id="icon792"></i>        </div>
+	</a>
+</div>
+-->
+</div><!-- END PUSHER -->
+</div><!-- END MAIN -->
+	<!-- SCRIPTS -->
+<!--Embed from Zendesk Chat Chat Wordpress Plugin v1.4.8-->
+  <!--Start of Zopim Live Chat Script-->
+  <script type="text/javascript">
+  window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+  d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+  _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+  $.src='//v2.zopim.com/?3gf3vMQvNLZb88aVrZ2KJy9BTYmGY7Uo';z.t=+new Date;$.
+  type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+  </script><script>$zopim( function() {
+})</script><!--End of Zendesk Chat Script-->        <div id="searchdiv">
+            <form role="search" method="get" id="searchform" action="https://www.inflearn.com/">
+                <input type="text" value="" name="s" id="s" placeholder="원하는 강좌를 찾아보세요.^^" />
+                <input type="hidden" value="course" name="post_type" />            </form>
+            <span></span>
+        </div>
+		<link rel='stylesheet' id='wplms_child_theme_style-css'  href='https://www.inflearn.com/wp-content/themes/inflab/style.css?ver=4.7.3' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/ui/core.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/ui/widget.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/ui/mouse.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/ui/resizable.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/ui/draggable.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/ui/button.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/ui/position.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/jquery/ui/dialog.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/wpdialog.min.js?ver=4.7.3'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.12-6148'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/buddypress/bp-core/js/vendor/moment-js/moment.min.js?ver=2.8.2'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/buddypress/bp-core/js/vendor/moment-js/locale/ko.min.js?ver=2.8.2'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/buddypress/bp-core/js/vendor/livestamp.min.js?ver=2.8.2'></script>
+<script type='text/javascript'>
+jQuery(function() {
+	moment.locale( 'ko.min' );
+});
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"recaptcha":{"messages":{"empty":"Please verify that you are not a robot."}}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.7'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"ko-KR","strings":{"Close":"\ub2eb\uae30","Fullscreen":"\uc804\uccb4\ud654\uba74","Turn off Fullscreen":"\uc804\uccb4\ud654\uba74 \ub044\uae30","Go Fullscreen":"\uc804\uccb4\ud654\uba74 \uac00\uae30","Download File":"\ud30c\uc77c \ub0b4\ub824\ubc1b\uae30","Download Video":"\ube44\ub514\uc624 \ub0b4\ub824\ubc1b\uae30","Play":"\uc2e4\ud589","Pause":"\uc911\uc9c0","Captions\/Subtitles":"\ucea1\uc158\/\ubd80\uc81c\ubaa9","None":"None","Time Slider":"\ud0c0\uc784 \uc2ac\ub77c\uc774\ub354","Skip back %1 seconds":"%1\ucd08 \ub4a4\ub85c \uac00\uae30","Video Player":"\ube44\ub514\uc624 \ud50c\ub808\uc774\uc5b4","Audio Player":"\uc624\ub514\uc624 \ud50c\ub808\uc774\uc5b4","Volume Slider":"\ubcfc\ub968 \uc2ac\ub77c\uc774\ub354","Mute Toggle":"\ubb34\uc74c \ud1a0\uae00","Unmute":"\ubb34\uc74c\ud574\uc81c","Mute":"\uc870\uc6a9\ud788","Use Up\/Down Arrow keys to increase or decrease volume.":"\ubcfc\ub968\uc744 \ub192\uc774\uac70\ub098 \uc904\uc774\ub824\uba74 \uc0c1\/\ud558 \ubc29\ud5a5\ud0a4\ub97c \uc0ac\uc6a9\ud558\uc138\uc694.","Use Left\/Right Arrow keys to advance one second, Up\/Down arrows to advance ten seconds.":"1\ucd08\ub97c \uc9c4\ud589\ud558\ub824\uba74 \uc88c\/\uc6b0 \ubc29\ud5a5\ud0a4\ub97c \uc0ac\uc6a9\ud558\uace0 10\ucd08\ub97c \uc9c4\ud589\ud558\ub824\uba74 \uc0c1\/\ud558 \ubc29\ud5a5\ud0a4\ub97c \uc0ac\uc6a9\ud558\uc138\uc694."}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.22.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var thickboxL10n = {"next":"\ub2e4\uc74c >","prev":"< \uc774\uc804","image":"\uc774\ubbf8\uc9c0","of":"\uc758","close":"\ub2eb\uae30","noiframes":"\uc774 \uae30\ub2a5\uc740 \uc778\ub77c\uc778 \ud504\ub808\uc784\uc744 \ud544\uc694\ub85c \ud569\ub2c8\ub2e4. \uc544\uc774\ud504\ub808\uc784\uc774 \ube44\ud65c\uc131\uc774\uac70\ub098 \ube0c\ub77c\uc6b0\uc800\uac00 \uc9c0\uc6d0\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.","loadingAnimation":"https:\/\/www.inflearn.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/thickbox/thickbox.js?ver=3.1-20121105'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var vibe_shortcode_strings = {"sending_mail":"Sending mail","error_string":"Error :","invalid_string":"Invalid ","captcha_mismatch":"Captcha Mismatch"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/vibe-shortcodes/js/shortcodes.js?ver=2.4'></script>
+<script type='text/javascript' src='//www.inflearn.com/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.70'></script>
+<script type='text/javascript' src='//www.inflearn.com/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var woocommerce_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/course\/reinforcement-learning\/?wc-ajax=%%endpoint%%"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='//www.inflearn.com/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=3.0.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wc_cart_fragments_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/course\/reinforcement-learning\/?wc-ajax=%%endpoint%%","fragment_name":"wc_fragments"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='//www.inflearn.com/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=3.0.1'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/vibe-course-module/includes/js/course-module-js.min.js?ver=2.7'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/mediaelement/wp-mediaelement.min.js?ver=4.7.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var BP_DTheme = {"accepted":"\ud5c8\uac00\ub41c ","close":"\ub2eb\ud78c ","comments":"\ub313\uae00 ","leave_group_confirm":"\uc774 \uadf8\ub8f9\uc5d0\uc11c \ub098\uac00\uc2dc\uaca0\uc2b5\ub2c8\uae4c? ","mark_as_fav":"\uc990\uaca8\ucc3e\uae30","my_favs":"\uc990\uaca8\ucc3e\uae30 ","rejected":"\uac70\ubd80\ub41c ","remove_fav":"\uc990\uaca8\ucc3e\uae30 \uc81c\uac70","show_all":"\ubaa8\ub450 \ubcf4\uae30 ","show_all_comments":"\uc774 \uc904\uc758 \ubaa8\ub4e0 \ub313\uae00 \ubcf4\uae30 ","show_x_comments":"\ubaa8\ub4e0 %d \ub313\uae00 \ubcf4\uae30 ","unsaved_changes":"\ub2f9\uc2e0\uc758 \ud504\ub85c\ud544\uc5d0 \uc800\uc7a5\ub418\uc9c0 \uc54a\uc740 \ubcc0\uacbd\uc0ac\ud56d\uc774 \uc788\uc2b5\ub2c8\ub2e4. \ub9cc\uc57d \ud398\uc774\uc9c0\ub97c \ub098\uac00\uac8c \ub418\uba74 \uc774 \ubcc0\ub3d9\uc0ac\ud56d\uc740 \uc0ac\ub77c\uc9d1\ub2c8\ub2e4. ","view":"\ubcf4\uae30","too_short":"\ub108\ubb34 \uc9e7\uc544\uc694","weak":"\ubcc4\ub85c","good":"\uc88b\uc74c","strong":"\uac15\ud568"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/themes/wplms/assets/js/old_files/buddypress.js?ver=2.7.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var vibe_course_module_strings = {"timeout":"\uc2dc\uac04 \ucd08\uacfc ","too_fast_answer":"Too Fast or Answer not marked.","answer_saved":"Answer Saved.","processing":"Processing...","saving_answer":"Saving Answer...please wait","remove_user_text":"\uc774 \ub2e8\uacc4\ub294 \uc5ed\ud589\uc774 \ubd88\uac00\ub2a5 \ud569\ub2c8\ub2e4. \ud655\uc2e4\ud788 \uc774 \uac15\uc88c\uc5d0\uc11c \uc774 \uc0ac\uc6a9\uc790\ub97c \uc81c\uac70\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c? ","remove_user_button":"\ud655\uc778, \uc0ac\uc6a9\uc790\ub97c \uac15\uc88c\ub85c\ubd80\ud130 \uc81c\uac70\ud558\uae30. ","confirm":"Confirm","cancel":"Cancel","reset_user_text":"\uc774 \ub2e8\uacc4\ub294 \uc5ed\ud589\uc774 \ubd88\uac00\ub2a5 \ud569\ub2c8\ub2e4. \ubaa8\ub4e0 \uac15\uc758\ub4e4, \ud034\uc988 \uacb0\uacfc\ub4e4\uc740 \uc0ac\uc6a9\uc790\ub97c \uc704\ud574 \uc7ac\uc124\uc815\ub420 \uc608\uc815\uc785\ub2c8\ub2e4. \uc774 \uac15\uc88c\ub97c \uc7ac\uc124\uc815\ud558\uae30\ub97c \uc6d0\ud558\uc2ed\ub2c8\uae4c?  ","reset_user_button":"\ud655\uc778. \uac15\uc88c \uc7ac\uc124\uc815\ud558\uae30. ","quiz_reset":"\uc774 \uacfc\uc815\uc740 \uc5ed\ud589\uc774 \ubd88\uac00\ub2a5 \ud569\ub2c8\ub2e4. \ubaa8\ub4e0 \uc9c8\ubb38\/\ub2f5\ubcc0\ub4e4\uc740 \uc7ac\uc124\uc815\ub420 \uc608\uc815\uc785\ub2c8\ub2e4. \ubaa8\ub4e0 \ud034\uc988\ub97c \uc7ac\uc124\uc815\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c? ","quiz_reset_button":"\ud655\uc778, \ud034\uc988 \uc7ac\uc124\uc815\ud558\uae30. ","marks_saved":"\uc800\uc7a5\ub41c \uccb4\ud06c ","quiz_marks_saved":"\uc800\uc7a5\ub41c \ud034\uc988 \uccb4\ud06c ","save_quiz":"Save Quiz progress","saved_quiz_progress":"Saved","submit_quiz":"\ud034\uc988 \uc81c\ucd9c","sending_messages":"\uba54\uc138\uc9c0 \ubcf4\ub0b4\ub294 \uc911 ....","adding_students":"\ud68c\uc6d0\uc744 \uac15\uc88c\uc5d0 \ucd94\uac00\ud558\ub294 \uc911 ... ","successfuly_added_students":"\uac15\uc88c\uc5d0 \ucd94\uac00\ub41c \ud68c\uc6d0\ub4e4 ","unable_add_students":"\uac15\uc88c\uc5d0 \ud68c\uc6d0 \ucd94\uac00 \ube14\uac00 ","select_fields":"\ub2e4\uc6b4\ub85c\ub4dc\ub97c \uc704\ud574 \ud56d\ubaa9\uc744 \uc120\ud0dd\ud558\uc138\uc694. ","download":"\ub2e4\uc6b4\ub85c\ub4dc","theme_color":"#00a0d2","single_dark_color":"#eaeaea","for_course":"\uac15\uc88c \uc218\ub8cc: ","active_filters":"\ud544\ud130 \ud65c\uc131\ud654 ","clear_filters":"\ubaa8\ub4e0 \ud544\ud130 \uc9c0\uc6b0\uae30 ","remove_comment":"\uc774 \ub178\ud2b8\ub97c \uc0ad\uc81c \ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c? ","remove_comment_button":"\ud655\uc778, \ub178\ud2b8 \uc9c0\uc6b0\uae30 ","private_comment":"\ucd08\ub300 \ud55c\uc815","add_comment":"\ub178\ud2b8 \ucd94\uac00\ud558\uae30 ","submit_quiz_error":"\uc9c8\ubb38\uc744 \ub4f1\ub85d\ud558\uc2dc\uac70\ub098 \ud034\uc988\uc5d0 \ub2e4\uc2dc \uc751\uc2dc\ud558\uc138\uc694! ","remove_announcement":"\uc774 \uacf5\uc9c0\ub97c \uc0ad\uc81c\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c? ","start_quiz_notification":"\ud034\uc988\ub97c \uc2dc\uc791\ud558\uae30 \ubc14\ub85c \uc804 \uc785\ub2c8\ub2e4. \ud034\uc988 \uc2dc\uc791\uc744 \uc704\ud574 '\ud655\uc778' \uc744 \ub204\ub974\uc138\uc694. ","submit_quiz_notification":"\ud034\uc988\ub97c \uc81c\ucd9c\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c? \ud034\uc988\ub97c \uc81c\ucd9c\ud558\uc2dc\uba74 \ub2f5\ubcc0 \uc218\uc815\uc774 \ubd88\uac00\ub2a5 \ud569\ub2c8\ub2e4. \ud655\uc778\ud574\uc8fc\uc138\uc694. ","check_results":"\uacb0\uacfc \ud655\uc778\ud558\uae30 ","correct":"\uc815\ub2f5 ","incorrect":"\uc624\ub2f5 ","confirm_apply":"Are you sure you want to apply for this Course ?","instructor_uncomplete_unit":"Are you sure you want mark this unit \"incomplete\" for the user ?","instructor_complete_unit":"Are you sure you want to mark this unit \"complete\" for the user ?","unanswered_questions":"\uba87 \uac1c\uc758 \ud480\uc9c0 \uc54a\uc740 \ubb38\uc81c\uac00 \uc788\uc2b5\ub2c8\ub2e4. \ub2e4\uc74c\uc73c\ub85c \ub118\uc5b4\uac00\uc2dc\uaca0\uc2b5\ub2c8\uae4c? ","enter_more_characters":"Please enter 4 or more characters ...","correct_answer":"Correct Answer","explanation":"Explanation","And":"and"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/plugins/vibe-course-module/includes/js/course.js?ver=2.7'></script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-includes/js/wp-embed.min.js?ver=4.7.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wplms = {"more":"\ub354 \ubcf4\uae30","view_more":"\ub354 \ubcf4\uae30","menu":"Menu","wplms_woocommerce_validate":"\ud544\uc218 \uc0ac\ud56d \ud56d\ubaa9\uc744 \uc791\uc131\ud574\uc8fc\uc138\uc694 (*\ub85c \ud45c\uc2dc\ub418\uc5b4 \uc788\uc2b5\ub2c8\ub2e4.) ","open_menu":"\uba54\ub274 \uc5f4\uae30\/\ub2eb\uae30","invalid_mail":"Invalid email entered !"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.inflearn.com/wp-content/themes/wplms/assets/js/wplms.min.js?ver=2.7.3'></script>
+<!-- WooCommerce JavaScript -->
+<script type="text/javascript">
+jQuery(function($) { 
+
+__gaTracker( 'send', 'pageview' );
+
+ });
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-65157832-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '718931344874402');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=718931344874402&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -→
+</body>
+</html>

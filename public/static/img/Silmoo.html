@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>에이아이 플랫폼</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <!-- 파비콘 설정 -->
+    <link rel="shortcut icon" href="/static/img/cover/comlogo.png">
+    <!-- css 설정 -->
+    <link rel="stylesheet" type="text/css" href="/static/global/plugins/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="/static/global/plugins/slick/slick-theme.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/application.css">
+    <link rel="stylesheet" href="/static/css/app.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="/static/global/plugins/slick/slick.min.js"></script>
+</head>
+
+<body>
+    <!-- 헤더 영역 시작 -->
+    <header class="navigation__header header-down">
+        <nav role="navigation" class="navbar header-navigation-holder">
+            <div class="header__inner">
+
+                <div class="navbar-header">
+                    <a href="/" class="header__logo-link">
+                        <img class="header__logo" src="/static/img/logo_white.png" alt="Logo mobile">
+                    </a>
+                    <div class="navbar-header-search-holder">
+                        <div class="search-field__holder collapsed">
+                            <input type="text" class="search-field__input">
+                            <button class="search-field__submit">
+                                <i class="icon icon-search"></i>
+                            </button>
+                        </div>
+                        <button data-target="#header-navigation" data-toggle="collapse" class="navbar-toggle header-navigation-toggle" type="button">
+            <i class="icon-reorder"></i>
+          </button>
+                    </div>
+                </div>
+
+                <div id="header-navigation" class="collapse navbar-collapse header__navigation">
+                    <ul class="nav navbar-nav header__navigation-list">
+                        <li class=""><a href="/main">Ai코스</a></li>
+                        <li class=""><a href="/main2">실무코스</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav header__navigation-list fluid aligned-end">
+                        <li class="hidden-xs hidden-sm">
+                            <div class="search-field__holder collapsed">
+                                <!-- 검색 -->
+                                <!--<input type="text" class="search-field__input">-->
+                                <!--<button class="search-field__submit">-->
+                                <!--<i class="icon icon-search"></i>-->
+                                <!--</button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/pricing" class="pro-link">PRO멤버</a>
+                        </li>
+                        <li><a href="/sign_in">로그인</a></li>
+                        <li><a href="/sign_up">회원가입</a></li>
+                        <li><a href="/sign_out">로그아웃</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function() {
+                // Hide Header on on scroll down
+                var didScroll;
+                var lastScrollTop = 0;
+                var delta = 5;
+                var headerHeight = $('header').outerHeight();
+
+                $(window).scroll(function(event) {
+                    didScroll = true;
+                });
+
+                setInterval(function() {
+                    if (didScroll) {
+                        hasScrolled();
+                        didScroll = false;
+                    }
+                }, 250);
+
+                function hasScrolled() {
+                    var st = $(this).scrollTop();
+
+                    // Make sure they scroll more than delta
+                    if (Math.abs(lastScrollTop - st) <= delta)
+                        return;
+
+                    // If they scrolled down and are past the navbar, add class .nav-up.
+                    // This is necessary so you never see what is "behind" the navbar.
+                    if (st > lastScrollTop && st > headerHeight) {
+                        // Scroll Down
+                        $('.navigation__header').removeClass('header-down').addClass('header-up');
+                    } else {
+                        // Scroll Up
+                        if (st + $(window).height() < $(document).height()) {
+                            $('.navigation__header').removeClass('header-up').addClass('header-down');
+                        }
+                    }
+
+                    lastScrollTop = st;
+                }
+            });
+
+            // Collapsable Search Field
+            $('.search-field__holder.collapsed').on('click', function(e) {
+                $(this).removeClass('collapsed').addClass('expanded').find('.search-field__input').focus();
+            });
+
+            $(document).on('touchstart', function() {
+                documentClick = true;
+            });
+            $(document).on('touchmove', function() {
+                documentClick = false;
+            });
+
+            $(document).on('click touchend', function(event) {
+                if (event.type == 'click') documentClick = true;
+                if (documentClick) {
+                    if (!$(event.target).closest('.navigation__header .search-field__holder').length) {
+                        if ($('.navigation__header .search-field__holder').hasClass('expanded')) {
+                            $('.navigation__header .search-field__holder').addClass('collapsed').removeClass('expanded');
+                        }
+                    }
+                }
+            })
+        </script>
+    </header>
+    <div class="header--spacer"></div>
+    <!--헤더 영역 끝-->
+
+    <div class="technology-pages-wrapper">
+        <section class="hero-technology">
+            <div class="container">
+                <div class="title-holder">
+                    <div class="tech-logo-holder">
+                        <img class="tech-logo" src="../static/img/logo_white.png" alt="Rx">
+                        <h3 class="tech-title">실무코스</h3>
+                    </div>
+                    <div class="slogan-holder">
+                        <h3 class="slogan">member님 안녕하세요</h3>
+                    </div>
+                </div>
+                <p>실무코스는 AI Platform의 업선된 업계 리더들의 실력을 <br /> 알려드리는 프리미엄 서비스입니다.</p>
+                <p>실무코스의 기술된 강좌는 실무에 적용시 힘들었던 부분을 해결해드립니다.</p>
+            </div>
+        </section>
+
+        <div class="taught-by-leaders">
+            <div class="taught-by-leaders__inner">
+                <h2 class="taught-by-leaders__title">AI Platform의 교육리더들과 함께하세요.</h2>
+                <h3 class="taught-by-leaders__subtitle">실무영역에서 적용되는 꼭 필요한 강좌를 들어보세요.</h3>
+                <div class="taught-by-leaders__cards-holder">
+                    <div class="taught-by-leaders__card">
+                        <a href="https://.../instructors/dan-abramov">
+                            <img class="instructor__photo" src="/static/img/silmoo/Graphic_Design.png" alt="">
+                        </a>
+                        <div class="instructor__info-holder">
+                            <div class="instructor__title_box">
+                                <a href="">
+
+                                    <h4 class="instructor__title">디자인 툴 과정</h4>
+                                </a>
+                            </div>
+                            <div class="instructor__about">
+                                <li>포토샵</li>
+                                <li>일러스트레이터</li>
+                                <li>인디자인</li>
+                            </div>
+                        </div>
+                        <div class="instructor__teaching-technologies">
+                            <span>Design</span>
+                        </div>
+                    </div>
+                    <div class="taught-by-leaders__card">
+                        <a href="https://.../instructors/dan-abramov">
+                            <img class="instructor__photo" src="/static/img/silmoo/Java_Spring.png" alt="">
+                        </a>
+                        <div class="instructor__info-holder">
+                            <div class="instructor__title_box">
+                                <a href="">
+
+                                    <h4 class="instructor__title">자바 스프링 과정</h4>
+                                </a>
+                            </div>
+                            <div class="instructor__about">
+                                <li>자바코어</li>
+                                <li>오브젝트 오리엔티드 프로그래밍</li>
+                                <li>의존성 결합 과정</li>
+                            </div>
+                        </div>
+                        <div class="instructor__teaching-technologies">
+                            <span>JAVA Developer</span>
+                        </div>
+                    </div>
+                    <div class="taught-by-leaders__card">
+                        <a href="https://.../instructors/dan-abramov">
+                            <img class="instructor__photo" src="/static/img/silmoo/React_Express.png" alt="">
+                        </a>
+                        <div class="instructor__info-holder">
+                            <div class="instructor__title_box">
+                                <a href="">
+
+                                    <h4 class="instructor__title">모던 자바스크립트 과정</h4>
+                                </a>
+                            </div>
+                            <div class="instructor__about">
+                                <li>리액트 컴포넌트</li>
+                                <li>Express JS</li>
+                                <li>리덕스</li>
+                            </div>
+                        </div>
+                        <div class="instructor__teaching-technologies">
+                            <span>Javascript Developer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="taught-by-leaders__cards-holder">
+                    <div class="taught-by-leaders__card">
+                        <a href="https://.../instructors/dan-abramov">
+                            <img class="instructor__photo" src="/static/img/silmoo/database.png" alt="">
+                        </a>
+                        <div class="instructor__info-holder">
+                            <div class="instructor__title_box">
+                                <a href="">
+
+                                    <h4 class="instructor__title">데이터베이스 고급과정</h4>
+                                </a>
+                            </div>
+                            <div class="instructor__about">
+                                <li>데이터베이스 아키텍처 설계</li>
+                                <li>데이터베이스 쿼리 튜닝</li>
+                                <li>NoSQL 활용</li>
+                            </div>
+                        </div>
+                        <div class="instructor__teaching-technologies">
+                            <span>DATABASE</span>
+                        </div>
+                    </div>
+                    <div class="taught-by-leaders__card">
+                        <a href="https://.../instructors/dan-abramov">
+                            <img class="instructor__photo" src="/static/img/silmoo/learning.png" alt="">
+                        </a>
+                        <div class="instructor__info-holder">
+                            <div class="instructor__title_box">
+                                <a href="">
+
+                                    <h4 class="instructor__title">머신러닝 과정</h4>
+                                </a>
+                            </div>
+                            <div class="instructor__about">
+                                <li>고급 파이썬</li>
+                                <li>Open CV</li>
+                                <li>TensorFlow 머신러닝 프로젝트 적용</li>
+                            </div>
+                        </div>
+                        <div class="instructor__teaching-technologies">
+                            <span>Artifact Intelligence. AI</span>
+                        </div>
+                    </div>
+                    <div class="taught-by-leaders__card">
+                        <a href="https://.../instructors/dan-abramov">
+                            <img class="instructor__photo" src="/static/img/silmoo/mobile.png" alt="">
+                        </a>
+                        <div class="instructor__info-holder">
+                            <div class="instructor__title_box">
+                                <a href="">
+                                    <h4 class="instructor__title">모바일 네이티브 과정</h4>
+                                </a>
+                            </div>
+                            <div class="instructor__about">
+                                <li>안드로이드</li>
+                                <li>아이폰</li>
+                                <li>하이브리드</li>
+                            </div>
+                        </div>
+                        <div class="instructor__teaching-technologies">
+                            <span>Mobile DEVELOPER</span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <div class="site-footer__links-place">
+                <ul class="site-footer__links-list">
+                    <li>
+                        <a href="pricing">Pro멤버</a>
+                    </li>
+                    <li>
+                    </li>
+                </ul>
+                <div class="egghead__copyright">2017©Ai Platform</div>
+                <div class="egghead__terms">
+                    <a href="/privacy">이용약관 &amp; 개인정보취급방침</a>
+                </div>
+            </div>
+            <a href="/" class="site-footer__logo-link">
+                <img class="site-footer__logo" src="/static/img/logo_white.png" alt="Logo with text" style="width: 40px; height: 40px;">
+            </a>
+        </div>
+    </footer>
+</body>
+
+</html>
